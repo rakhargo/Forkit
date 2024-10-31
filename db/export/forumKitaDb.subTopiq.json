@@ -1,33 +1,23 @@
 [{
   "_id": {
-    "$oid": "67233e3ee797160ae858bbf6"
+    "$oid": "6723689ce797160ae858bc21"
   },
   "name": "ambalabu",
-  "creator": {
-    "username": "artefiq",
-    "password": "artefiq",
-    "email": "artefiq@artefiq.com",
-    "phone": "081133445578",
-    "upVotes": [],
-    "downVotes": []
+  "creatorId": {
+    "$oid": "67236890e797160ae858bc1e"
   },
   "moderators": [
     {
-      "username": "rafie",
-      "password": "rafie",
-      "email": "rafie@gmail.com",
-      "phone": "081133445579",
-      "upVotes": [],
-      "downVotes": []
+      "moderatorId": {
+        "$oid": "67236890e797160ae858bc1f"
+      }
     }
   ],
   "posts": [
     {
-      "title": "Rakha Hitam",
-      "description": "Rakha adalah orang hitam yang berasal dari negara Zimbabwe",
-      "upVote": 0,
-      "downVote": 0,
-      "replies": []
+      "postId": {
+        "$oid": "672368a6e797160ae858bc23"
+      }
     }
   ]
 }]

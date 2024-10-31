@@ -1,10 +1,29 @@
 [{
   "_id": {
-    "$oid": "67233e52e797160ae858bbf8"
+    "$oid": "672368a6e797160ae858bc23"
   },
   "title": "Rakha Hitam",
   "description": "Rakha adalah orang hitam yang berasal dari negara Zimbabwe",
   "upVote": 0,
   "downVote": 0,
-  "replies": []
+  "replies": [
+    {
+      "reply": "Aku sangat suka rakha",
+      "creatorId": {
+        "$oid": "67236890e797160ae858bc1e"
+      }
+    },
+    {
+      "reply": "Aku mencintai rakha",
+      "creatorId": {
+        "$oid": "67236890e797160ae858bc1f"
+      }
+    }
+  ],
+  "creatorId": {
+    "$oid": "67236890e797160ae858bc1f"
+  },
+  "subTopiqId": {
+    "$oid": "6723689ce797160ae858bc21"
+  }
 }]

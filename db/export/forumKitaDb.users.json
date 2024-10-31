@@ -1,22 +1,30 @@
 [{
   "_id": {
-    "$oid": "67233e2be797160ae858bbf3"
+    "$oid": "67236890e797160ae858bc1e"
   },
   "username": "artefiq",
   "password": "artefiq",
   "email": "artefiq@artefiq.com",
   "phone": "081133445578",
+  "posts": [],
   "upVotes": [],
   "downVotes": []
 },
 {
   "_id": {
-    "$oid": "67233e2be797160ae858bbf4"
+    "$oid": "67236890e797160ae858bc1f"
   },
   "username": "rafie",
   "password": "rafie",
   "email": "rafie@gmail.com",
   "phone": "081133445579",
+  "posts": [
+    {
+      "postId": {
+        "$oid": "672368a6e797160ae858bc23"
+      }
+    }
+  ],
   "upVotes": [],
   "downVotes": []
 }]

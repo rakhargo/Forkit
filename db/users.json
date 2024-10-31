@@ -4,6 +4,9 @@
         "password": "artefiq",
         "email": "artefiq@artefiq.com",
         "phone": "081133445578",
+        "posts": [
+
+        ],
         "upVotes": [
 
         ],
@@ -16,6 +19,11 @@
         "password": "rafie",
         "email": "rafie@gmail.com",
         "phone": "081133445579",
+        "posts": [
+            {
+                "postId": "12"
+            }
+        ],
         "upVotes": [
 
         ],
