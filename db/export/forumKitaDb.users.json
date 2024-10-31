@@ -1,0 +1,22 @@
+[{
+  "_id": {
+    "$oid": "67233e2be797160ae858bbf3"
+  },
+  "username": "artefiq",
+  "password": "artefiq",
+  "email": "artefiq@artefiq.com",
+  "phone": "081133445578",
+  "upVotes": [],
+  "downVotes": []
+},
+{
+  "_id": {
+    "$oid": "67233e2be797160ae858bbf4"
+  },
+  "username": "rafie",
+  "password": "rafie",
+  "email": "rafie@gmail.com",
+  "phone": "081133445579",
+  "upVotes": [],
+  "downVotes": []
+}]

@@ -1,0 +1,26 @@
+[
+    {
+        "username": "artefiq",
+        "password": "artefiq",
+        "email": "artefiq@artefiq.com",
+        "phone": "081133445578",
+        "upVotes": [
+
+        ],
+        "downVotes": [
+
+        ]
+    },
+    {
+        "username": "rafie",
+        "password": "rafie",
+        "email": "rafie@gmail.com",
+        "phone": "081133445579",
+        "upVotes": [
+
+        ],
+        "downVotes": [
+            
+        ]
+    }
+]
