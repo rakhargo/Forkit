@@ -1,6 +1,13 @@
 from fastapi import FastAPI, HTTPException, Depends, status
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from passlib.context import CryptContext
+from datetime import datetime, timedelta
+from jose import JWTError, jwt
+from pymongo import MongoClient
+
+MONGO_URL = "mongodb://localhost:27017"
+client = MongoClient(MONGO_URL)
+db = client.forumKitaDb
 
 # Security
 SECRET_KEY = "your-secret-key"

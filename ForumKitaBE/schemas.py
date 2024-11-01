@@ -16,12 +16,12 @@ class User(UserBase):
     upVotes: int = 0
     downVotes: int = 0
 
-class SubTopicBase(BaseModel):
+class SubTopiqBase(BaseModel):
     name: str
     creator: str
     moderator: str
 
-class SubTopic(SubTopicBase):
+class SubTopiq(SubTopiqBase):
     id: str
     posts: List[str] = []
 
@@ -29,7 +29,7 @@ class PostBase(BaseModel):
     title: str
     description: str
     creator: str
-    sub_topic_id: str
+    sub_topiq_id: str
 
 class Post(PostBase):
     id: str
