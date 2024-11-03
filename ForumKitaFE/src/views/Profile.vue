@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import PostCard from '../components/PostCard.vue'
 
 const route = useRoute()
+const router = useRouter()
 const username = computed(() => route.params.username as string)
 
 const profile = ref({
@@ -25,6 +26,10 @@ const posts = ref([
     createdAt: new Date('2024-03-10T08:00:00')
   }
 ])
+
+const handleEditProfile = () => {
+  router.push('/settings/profile')
+}
 </script>
 
 <template>
@@ -49,6 +54,7 @@ const posts = ref([
       <button
         v-else
         class="btn"
+        @click="handleEditProfile"
       >
         Edit Profile
       </button>

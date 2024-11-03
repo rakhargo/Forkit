@@ -2,8 +2,11 @@
 import { ArrowUpIcon, ArrowDownIcon, ChatBubbleLeftIcon, ShareIcon } from '@heroicons/vue/24/outline'
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
+import { useRouter } from 'vue-router'
 
-defineProps<{
+const router = useRouter()
+
+const props = defineProps<{
   post: {
     id: number
     title: string
@@ -15,6 +18,10 @@ defineProps<{
     image?: string
   }
 }>()
+
+const goToComments = () => {
+  router.push(`/post/${props.post.id}/comments`)
+}
 </script>
 
 <template>
@@ -36,7 +43,7 @@ defineProps<{
       <img v-if="post.image" :src="post.image" :alt="post.title" class="post-image">
 
       <div class="post-actions">
-        <button class="action-button">
+        <button class="action-button" @click="goToComments">
           <ChatBubbleLeftIcon class="action-icon" />
           <span>{{ post.comments }} Komentar</span>
         </button>
