@@ -50,7 +50,7 @@ const posts = [
 
       <button 
         class="test-api-button"
-        @click="router.push('/test-api')"
+        @click="router.push('/api')"
       >
         Buat Ngetes API Hehe
       </button>
