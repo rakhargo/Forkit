@@ -47,6 +47,13 @@ const posts = [
       >
         Buat Post Baru
       </button>
+
+      <button 
+        class="test-api-button"
+        @click="router.push('/test-api')"
+      >
+        Buat Ngetes API Hehe
+      </button>
       
       <PostCard
         v-for="post in posts"
@@ -87,6 +94,25 @@ const posts = [
 }
 
 .new-post-button:hover {
+  background-color: var(--gray-light);
+  color: var(--primary-color);
+}
+
+.test-api-button {
+  width: 100%;
+  padding: 12px;
+  background-color: white;
+  border: none;
+  border-radius: 8px;
+  box-shadow: var(--shadow);
+  margin-bottom: 16px;
+  font-size: 16px;
+  color: var(--gray-medium);
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.test-api-button:hover {
   background-color: var(--gray-light);
   color: var(--primary-color);
 }
