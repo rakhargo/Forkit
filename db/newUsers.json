@@ -1,0 +1,53 @@
+[
+    {
+      "_id": { "$oid": "67236890e797160ae858bc20" },
+      "username": "johndoe",
+      "password": "john123",
+      "email": "john.doe@example.com",
+      "phone": "081133445580",
+      "posts": [],
+      "upVotes": [],
+      "downVotes": []
+    },
+    {
+      "_id": { "$oid": "67236890e797160ae858bc21" },
+      "username": "janedoe",
+      "password": "jane123",
+      "email": "jane.doe@example.com",
+      "phone": "081133445581",
+      "posts": [],
+      "upVotes": [],
+      "downVotes": []
+    },
+    {
+      "_id": { "$oid": "67236890e797160ae858bc22" },
+      "username": "marksmith",
+      "password": "mark123",
+      "email": "mark.smith@example.com",
+      "phone": "081133445582",
+      "posts": [],
+      "upVotes": [],
+      "downVotes": []
+    },
+    {
+      "_id": { "$oid": "67236890e797160ae858bc23" },
+      "username": "lucyliu",
+      "password": "lucy123",
+      "email": "lucy.liu@example.com",
+      "phone": "081133445583",
+      "posts": [],
+      "upVotes": [],
+      "downVotes": []
+    },
+    {
+      "_id": { "$oid": "67236890e797160ae858bc24" },
+      "username": "peterparker",
+      "password": "spiderman",
+      "email": "peter.parker@example.com",
+      "phone": "081133445584",
+      "posts": [],
+      "upVotes": [],
+      "downVotes": []
+    }
+  ]
+  
