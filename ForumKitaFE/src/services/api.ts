@@ -16,10 +16,13 @@ export const postService = {
   getPostBySubTopiqId: (id: string) => api.get<Posts[]>('/posts/subtopiq/' + id),
   getPostByCreatorId: (id: string) => api.get<Posts[]>('/posts/creator/' + id),
   createPost: (post: Partial<Posts>) => api.post<Posts>('/posts/', post),
-//   reply: (postId: string) => api.post<Posts>('/posts/reply/' + postId),
   upVote: (postId: string) => api.post('/posts/' + postId + '/upvote'),
   downVote: (postId: string) => api.post('/posts/' + postId + '/downvote'),
-  deletePosts: (postId: string) => api.delete('/posts/' + postId)
+  deletePosts: (postId: string) => api.delete('/posts/' + postId),
+  createReply: (postId: string) => api.post<Replies>('/posts/reply/' + postId),
+  getTopPosts: (subTopiqId: string) => api.get('/posts/top-posts/' + subTopiqId),
+  getRepliesByPostId: (postId: string) => api.get<Replies[]>('/posts/replies/post/' + postId),
+  getRepliesByUserId: (userId: string) => api.get<Replies[]>('/posts/replies/user/' + userId),
 };
 
 export const commentService = {
@@ -34,6 +37,10 @@ export const subTopiqService = {
     getSubTopiqByModeratorId: (moderatorId: string) => api.get('/subtopiq/moderated/' + moderatorId),
     getSubTopiqByCreatorId: (creatorId: string) => api.get('/subtopiq/created/' + creatorId),
     addModerator: (subTopiqId: string, userId: string) => api.post('/subtopiq/addmod/' + subTopiqId + userId),
+    subscribeSubTopiq: (subTopiqId: string, userId: string) => api.post('/subtopiq/subscribe/' + userId + "/" + subTopiqId),
+    unsubscribeSubTopiq: (subTopiqId: string, userId: string) => api.post('/subtopiq/unsubscribe/' + userId + "/" + subTopiqId),
+    deleteSubTopiq: (subTopiqId: string) => api.post('/subtopiq/delete/' + subTopiqId),
+    subTopiqCreators: () => api.get('/subtopiq/subtopiqs-with-creator')
 };
 
 export const userService = {
@@ -42,5 +49,6 @@ export const userService = {
     postLogin: () => api.post('/user/login'),
     getAllUsers: () => api.get<Users[]>('/user/all'), 
     getUserById: (userId: string) => api.get('/user/id/' + userId), 
-    postLogout: () => api.post('/user/logout')
+    postLogout: () => api.post('/user/logout'),
+    deleteUser: (userId: string) => api.delete('/user/delete/' + userId)
 };

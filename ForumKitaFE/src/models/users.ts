@@ -6,4 +6,5 @@ export interface Users {
     posts: string[];
     upVotes: string[];
     downVotes: string[];
+    subTopiqs: string[];
 }
