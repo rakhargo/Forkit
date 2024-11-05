@@ -67,10 +67,10 @@ async def list_all_users():
             "username": user["username"],
             "email": user["email"],
             "phone": user["phone"],
-            "posts": user["posts"],
-            "subTopiqs": user["subTopiqs"],
-            "upVotes": user["upVotes"],
-            "downVotes": user["downVotes"]
+            "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])],  # Convert postId to string
+            "subTopiqs": [str(subtopiq) for subtopiq in user.get("subTopiqs", [])],
+            "upVotes": [str(upvote) for upvote in user.get("upVotes", [])],
+            "downVotes": [str(downvote) for downvote in user.get("downVotes", [])]
         }
         for user in users
     ]
@@ -92,10 +92,10 @@ async def get_user_by_id(user_id: str):
         "username": user["username"],
         "email": user["email"],
         "phone": user["phone"],
-        "posts": user["posts"],
-        "subTopiqs": user["subTopiqs"],
-        "upVotes": user["upVotes"],
-        "downVotes": user["downVotes"]
+        "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])],  # Convert postId to string
+        "subTopiqs": [str(subtopiq) for subtopiq in user.get("subTopiqs", [])],
+        "upVotes": [str(upvote) for upvote in user.get("upVotes", [])],
+        "downVotes": [str(downvote) for downvote in user.get("downVotes", [])]
     }
 
 # Delete a user by ID

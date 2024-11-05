@@ -186,3 +186,37 @@ async def delete_subtopiq(subtopiq_id: str):
     db.posts.delete_many({"subTopiqId": subtopiq_oid})
     db.users.update_many({}, {"$pull": {"subTopiqs": subtopiq_id}})
     return {"message": f"SubTopiq {subtopiq_id} and related data deleted successfully"}
+
+# Fetch subTopiq with creator details TUH UDH JOIN YAAAAAAA GW MW TURU
+@subtopiq_router.get("/subtopiqs-with-creators")
+async def get_subtopiqs_with_creators():
+    subtopiqs_with_creators = db.subTopiq.aggregate([
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "creatorId",
+                "foreignField": "_id",
+                "as": "creator"
+            }
+        },
+        {
+            "$unwind": "$creator"
+        }
+    ])
+
+    results = []
+    for subtopiq in subtopiqs_with_creators:
+        results.append({
+            "id": str(subtopiq["_id"]),
+            "name": subtopiq["name"],
+            "creator": {
+                "id": str(subtopiq["creator"]["_id"]),
+                "username": subtopiq["creator"]["username"],
+                "email": subtopiq["creator"]["email"],
+                "phone": subtopiq["creator"]["phone"]
+            },
+            "moderators": [{"moderatorId": str(mod["moderatorId"])} for mod in subtopiq.get("moderators", [])],
+            "posts": [{"postId": str(post["postId"])} for post in subtopiq.get("posts", [])]
+        })
+
+    return results

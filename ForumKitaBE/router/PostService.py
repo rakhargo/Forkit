@@ -194,6 +194,62 @@ async def downvote_post(post_id: str, user_id: str):
     return {"message": "Post downvoted successfully"}
 
 
+# Get the top 5 most upvoted posts within a specific subTopiq, including creator details
+@post_router.get("/top-posts/{subtopiq_id}")
+async def get_top_upvoted_posts(subtopiq_id: str):
+    try:
+        subtopiq_oid = ObjectId(subtopiq_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid subTopiq ID format")
+    
+    # Pipeline to:
+    # 1. Lookup subtopiq id within posts and grep 
+    # 2. Sort descending based on upvote
+    # 3. Limit to top 5
+    # 4. Lookup Users table for creator id and take it as creator info 
+    # 5. Aggregate both collections 
+    # 6. Format to proper json
+
+    pipeline = [
+        {"$match": {"subTopiqId": subtopiq_oid}},
+        {"$sort": {"upVote": -1}},
+        {"$limit": 5},
+        {
+            "$lookup": {
+                "from": "users",
+                "localField": "creatorId",
+                "foreignField": "_id",
+                "as": "creator_info"
+            }
+        },
+        {"$unwind": "$creator_info"}
+    ]
+
+    posts = db.posts.aggregate(pipeline)
+
+    top_posts = [
+        {
+            "id": str(post["_id"]),
+            "title": post["title"],
+            "description": post["description"],
+            "upVote": post["upVote"],
+            "downVote": post["downVote"],
+            "replies": [{"reply": r["reply"], "creatorId": str(r["creatorId"])} for r in post.get("replies", [])],
+            "creatorId": str(post["creatorId"]),
+            "creator_info": {
+                "id": str(post["creator_info"]["_id"]),
+                "username": post["creator_info"]["username"],
+                "email": post["creator_info"]["email"],
+                "phone": post["creator_info"]["phone"]
+            },
+            "subTopiqId": str(post["subTopiqId"]),
+        }
+        for post in posts
+    ]
+    print(top_posts)
+
+    return top_posts
+
 # Get all replies for a specific post
 @post_router.get("/replies/post/{post_id}", response_model=List[Reply])
 async def get_replies_by_post_id(post_id: str):
@@ -252,5 +308,4 @@ async def delete_post(post_id: str):
         raise HTTPException(status_code=404, detail="Post not found")
     
     return {"message": "Post deleted successfully"}
-
 

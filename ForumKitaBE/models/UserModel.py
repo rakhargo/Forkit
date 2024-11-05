@@ -1,6 +1,9 @@
 from pydantic import BaseModel, EmailStr
 from typing import List
 
+class PostReference(BaseModel):
+    postId: str
+
 class UserBase(BaseModel):
     username: str
     email: EmailStr
@@ -11,7 +14,7 @@ class UserCreate(UserBase):
 
 class User(UserBase):
     id: str
-    posts: List[str]
-    subTopiqs: List[str]
-    upVotes: List[str] 
-    downVotes: List[str]
+    posts: List[PostReference] = []
+    upVotes: List[PostReference] = []
+    downVotes: List[PostReference] = []
+    subTopiqs: List[PostReference] = []
