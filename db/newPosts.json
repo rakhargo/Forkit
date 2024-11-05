@@ -1,0 +1,78 @@
+[
+    {
+      "_id": { "$oid": "672368a6e797160ae858bc24" },
+      "title": "Art in the Modern World",
+      "description": "Exploring the evolution of art styles in the 21st century",
+      "upVote": 5,
+      "downVote": 2,
+      "replies": [
+        {
+          "reply": "This is a fascinating topic!",
+          "creatorId": { "$oid": "67236890e797160ae858bc21" }
+        }
+      ],
+      "creatorId": { "$oid": "67236890e797160ae858bc20" },
+      "subTopiqId": { "$oid": "6723689ce797160ae858bc26" }
+    },
+    {
+      "_id": { "$oid": "672368a6e797160ae858bc25" },
+      "title": "Tech Trends in 2024",
+      "description": "An overview of emerging technology trends for the year",
+      "upVote": 10,
+      "downVote": 0,
+      "replies": [
+        {
+          "reply": "Can't wait to see what's next!",
+          "creatorId": { "$oid": "67236890e797160ae858bc23" }
+        }
+      ],
+      "creatorId": { "$oid": "67236890e797160ae858bc22" },
+      "subTopiqId": { "$oid": "6723689ce797160ae858bc23" }
+    },
+    {
+      "_id": { "$oid": "672368a6e797160ae858bc26" },
+      "title": "Top Movies of 2023",
+      "description": "A recap of the best movies released in 2023",
+      "upVote": 8,
+      "downVote": 1,
+      "replies": [
+        {
+          "reply": "Loved the selection this year!",
+          "creatorId": { "$oid": "67236890e797160ae858bc21" }
+        }
+      ],
+      "creatorId": { "$oid": "67236890e797160ae858bc21" },
+      "subTopiqId": { "$oid": "6723689ce797160ae858bc25" }
+    },
+    {
+      "_id": { "$oid": "672368a6e797160ae858bc27" },
+      "title": "Future of Gaming",
+      "description": "Discussing what lies ahead for the gaming industry",
+      "upVote": 6,
+      "downVote": 3,
+      "replies": [
+        {
+          "reply": "The future looks promising!",
+          "creatorId": { "$oid": "67236890e797160ae858bc24" }
+        }
+      ],
+      "creatorId": { "$oid": "67236890e797160ae858bc24" },
+      "subTopiqId": { "$oid": "6723689ce797160ae858bc24" }
+    },
+    {
+      "_id": { "$oid": "672368a6e797160ae858bc28" },
+      "title": "Music Genres to Explore",
+      "description": "A dive into lesser-known music genres",
+      "upVote": 3,
+      "downVote": 1,
+      "replies": [
+        {
+          "reply": "Great recommendations!",
+          "creatorId": { "$oid": "67236890e797160ae858bc20" }
+        }
+      ],
+      "creatorId": { "$oid": "67236890e797160ae858bc20" },
+      "subTopiqId": { "$oid": "6723689ce797160ae858bc22" }
+    }
+  ]
+  

@@ -1,0 +1,48 @@
+[
+    {
+      "_id": { "$oid": "6723689ce797160ae858bc22" },
+      "name": "musicfanatics",
+      "creatorId": { "$oid": "67236890e797160ae858bc20" },
+      "moderators": [
+        { "moderatorId": { "$oid": "67236890e797160ae858bc21" } }
+      ],
+      "posts": []
+    },
+    {
+      "_id": { "$oid": "6723689ce797160ae858bc23" },
+      "name": "techgurus",
+      "creatorId": { "$oid": "67236890e797160ae858bc22" },
+      "moderators": [
+        { "moderatorId": { "$oid": "67236890e797160ae858bc23" } }
+      ],
+      "posts": []
+    },
+    {
+      "_id": { "$oid": "6723689ce797160ae858bc24" },
+      "name": "gamingworld",
+      "creatorId": { "$oid": "67236890e797160ae858bc24" },
+      "moderators": [
+        { "moderatorId": { "$oid": "67236890e797160ae858bc20" } }
+      ],
+      "posts": []
+    },
+    {
+      "_id": { "$oid": "6723689ce797160ae858bc25" },
+      "name": "moviebuffs",
+      "creatorId": { "$oid": "67236890e797160ae858bc21" },
+      "moderators": [
+        { "moderatorId": { "$oid": "67236890e797160ae858bc22" } }
+      ],
+      "posts": []
+    },
+    {
+      "_id": { "$oid": "6723689ce797160ae858bc26" },
+      "name": "artenthusiasts",
+      "creatorId": { "$oid": "67236890e797160ae858bc23" },
+      "moderators": [
+        { "moderatorId": { "$oid": "67236890e797160ae858bc24" } }
+      ],
+      "posts": []
+    }
+  ]
+  
