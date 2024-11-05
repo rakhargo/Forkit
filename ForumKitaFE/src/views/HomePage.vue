@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import PostCard from '../components/PostCard.vue'
-import Sidebar from '../components/Sidebar.vue'
+import Sidebar from '../components/SideBar.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()

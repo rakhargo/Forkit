@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
 import { useRouter } from 'vue-router'
+import IconForumKita  from './icons/IconForumKita.vue'
 
 const router = useRouter()
 </script>
@@ -8,10 +9,7 @@ const router = useRouter()
 <template>
   <header class="header">
     <div class="container header-content">
-      <h1 class="logo" @click="router.push('/')">
-        <span class="logo-forum">Forum</span>
-        <span class="logo-kita">Kita</span>
-      </h1>
+      <IconForumKita> </IconForumKita>
       
       <div class="search-container">
         <MagnifyingGlassIcon class="search-icon" />
@@ -47,16 +45,6 @@ const router = useRouter()
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
-}
-
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.logo-forum {
-  color: var(--primary-color);
 }
 
 .search-container {
