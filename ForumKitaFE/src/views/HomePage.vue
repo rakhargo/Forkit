@@ -1,11 +1,15 @@
 <script setup lang="ts">
+import { ref, onMounted } from 'vue'
 import PostCard from '../components/PostCard.vue'
-import Sidebar from '../components/SideBar.vue'
+import Sidebar from '../components/Sidebar.vue'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
+const loading = ref(false)
+const page = ref(1)
+const hasMore = ref(true)
 
-const posts = [
+const posts = ref([
   {
     id: 1,
     title: 'Tips Belajar Programming untuk Pemula',
@@ -13,117 +17,114 @@ const posts = [
     author: 'programmer_sejati',
     votes: 156,
     comments: 45,
+    subforum: 'programming',
     createdAt: new Date('2024-03-10T08:00:00'),
     image: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6'
   },
   {
     id: 2,
-    title: 'Rekomendasi Tempat Wisata di Indonesia',
-    content: 'Berbagi pengalaman traveling ke berbagai tempat wisata di Indonesia. Dari Sabang sampai Merauke, Indonesia punya banyak tempat indah yang wajib dikunjungi.',
-    author: 'traveler_indo',
-    votes: 234,
-    comments: 78,
-    createdAt: new Date('2024-03-09T15:30:00'),
-    image: 'https://images.unsplash.com/photo-1496442226666-8d4d0e62e6e9'
+    title: 'Review Film Terbaru: Petualangan Sherina 2',
+    content: 'Film ini menghadirkan nostalgia sekaligus kesegaran baru. Akting, musik, dan visualnya sangat memukau.',
+    author: 'moviebuff',
+    votes: 245,
+    comments: 89,
+    subforum: 'movies',
+    createdAt: new Date('2024-03-10T07:30:00')
   },
   {
     id: 3,
-    title: 'Diskusi: Masa Depan Teknologi AI di Indonesia',
-    content: 'Bagaimana pendapat kalian tentang perkembangan AI di Indonesia? Apakah kita sudah siap menghadapi revolusi teknologi ini?',
-    author: 'tech_enthusiast',
-    votes: 89,
-    comments: 32,
-    createdAt: new Date('2024-03-09T10:15:00')
+    title: 'Resep Rendang Padang Autentik',
+    content: 'Berbagi resep rendang warisan keluarga yang sudah 3 generasi. Kuncinya ada di pemilihan rempah dan proses memasak yang tidak bisa dipercepat.',
+    author: 'chef_indo',
+    votes: 320,
+    comments: 67,
+    subforum: 'food',
+    createdAt: new Date('2024-03-10T06:45:00')
   }
-]
+])
+
+const loadMorePosts = async () => {
+  if (loading.value || !hasMore.value) return
+  
+  loading.value = true
+  
+  try {
+    await new Promise(resolve => setTimeout(resolve, 1000))
+    
+    const newPosts = [
+      {
+        id: posts.value.length + 1,
+        title: 'Perkembangan Teknologi AI di Indonesia',
+        content: 'Bagaimana perusahaan teknologi lokal mengadopsi dan mengembangkan solusi AI untuk berbagai sektor industri.',
+        author: 'tech_enthusiast',
+        votes: Math.floor(Math.random() * 100),
+        comments: Math.floor(Math.random() * 50),
+        subforum: 'technology',
+        createdAt: new Date()
+      },
+      {
+        id: posts.value.length + 2,
+        title: 'Tips Investasi Reksa Dana untuk Pemula',
+        content: 'Panduan lengkap memulai investasi reksa dana dengan modal minim dan risiko terukur.',
+        author: 'finance_guru',
+        votes: Math.floor(Math.random() * 100),
+        comments: Math.floor(Math.random() * 50),
+        subforum: 'finance',
+        createdAt: new Date()
+      },
+      {
+        id: posts.value.length + 3,
+        title: 'Review Album Terbaru Tulus',
+        content: 'Mengupas makna mendalam di balik lirik-lirik dalam album terbaru Tulus.',
+        author: 'music_lover',
+        votes: Math.floor(Math.random() * 100),
+        comments: Math.floor(Math.random() * 50),
+        subforum: 'music',
+        createdAt: new Date()
+      }
+    ]
+    
+    posts.value.push(...newPosts)
+    page.value++
+    
+    if (page.value >= 5) {
+      hasMore.value = false
+    }
+  } finally {
+    loading.value = false
+  }
+}
+
+const handleScroll = (e: Event) => {
+  const target = e.target as HTMLElement
+  const bottom = target.scrollHeight - target.scrollTop - target.clientHeight < 50
+  
+  if (bottom) {
+    loadMorePosts()
+  }
+}
+
+onMounted(() => {
+  loadMorePosts()
+})
 </script>
 
 <template>
   <main class="main-content">
-    <div class="posts-container">
-      <button 
-        class="new-post-button"
-        @click="router.push('/create-post')"
-      >
-        Buat Post Baru
-      </button>
-
-      <button 
-        class="test-api-button"
-        @click="router.push('/api')"
-      >
-        Buat Ngetes API Hehe
-      </button>
-      
+    <div class="scrollable-content hide-scrollbar" @scroll="handleScroll">
       <PostCard
         v-for="post in posts"
         :key="post.id"
         :post="post"
       />
+      
+      <div v-if="loading" class="loading-spinner">
+        Loading more posts...
+      </div>
     </div>
     
-    <Sidebar class="sidebar-container" />
+    <div class="sidebar-wrapper hide-scrollbar">
+      <Sidebar />
+    </div>
   </main>
 </template>
-
-<style scoped>
-.main-content {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 76px 20px 20px;
-  display: flex;
-  gap: 24px;
-}
-
-.posts-container {
-  flex: 1;
-}
-
-.new-post-button {
-  width: 100%;
-  padding: 12px;
-  background-color: white;
-  border: none;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
-  font-size: 16px;
-  color: var(--gray-medium);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.new-post-button:hover {
-  background-color: var(--gray-light);
-  color: var(--primary-color);
-}
-
-.test-api-button {
-  width: 100%;
-  padding: 12px;
-  background-color: white;
-  border: none;
-  border-radius: 8px;
-  box-shadow: var(--shadow);
-  margin-bottom: 16px;
-  font-size: 16px;
-  color: var(--gray-medium);
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.test-api-button:hover {
-  background-color: var(--gray-light);
-  color: var(--primary-color);
-}
-
-.sidebar-container {
-  display: none;
-}
-
-@media (min-width: 1024px) {
-  .sidebar-container {
-    display: block;
-  }
-}
-</style>
