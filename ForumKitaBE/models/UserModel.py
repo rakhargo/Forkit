@@ -12,5 +12,6 @@ class UserCreate(UserBase):
 class User(UserBase):
     id: str
     posts: List[str]
+    subTopiqs: List[str]
     upVotes: List[str] 
     downVotes: List[str]

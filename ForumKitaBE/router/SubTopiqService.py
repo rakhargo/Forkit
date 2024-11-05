@@ -17,21 +17,21 @@ async def create_subtopiq(name: str, creator_id: str):
     if not creator:
         raise HTTPException(status_code=404, detail="Creator ID does not exist")
 
-    # Check if a subTopiq with the same name already exists
     existing_subtopiq = db.subTopiq.find_one({"name": name})
     if existing_subtopiq:
         raise HTTPException(status_code=400, detail="SubTopiq name is already taken")
 
-    # Proceed to create the subTopiq
     subtopiq_data = {
         "name": name,
         "creatorId": ObjectId(creator_id),
-        "moderators": [],
+        "moderators": [{"moderatorId": ObjectId(creator_id)}], 
         "posts": []
     }
+
     result = db.subTopiq.insert_one(subtopiq_data)
     subtopiq_data["id"] = str(result.inserted_id)
     subtopiq_data["creatorId"] = str(subtopiq_data["creatorId"])  # Convert ObjectId to string
+    subtopiq_data["moderators"] = [{"moderatorId": str(ObjectId(creator_id))}]  # Convert moderatorId to string
 
     return subtopiq_data
 
@@ -54,6 +54,7 @@ async def view_all_subtopiqs():
 @subtopiq_router.get("/id/{subtopiq_id}", response_model=SubTopiq)
 async def view_subtopiq_by_id(subtopiq_id: str):
     subtopiq = db.subTopiq.find_one({"_id": ObjectId(subtopiq_id)})
+
     if not subtopiq:
         raise HTTPException(status_code=404, detail="SubTopiq not found")
     return {
@@ -68,12 +69,11 @@ async def view_subtopiq_by_id(subtopiq_id: str):
 @subtopiq_router.get("/moderated/{moderator_id}", response_model=List[SubTopiq])
 async def view_subtopiq_by_moderator_id(moderator_id: str):
     moderator_oid = db.users.find_one({"_id": ObjectId(moderator_id)})['_id']
+
     if not moderator_oid:
         raise HTTPException(status_code=400, detail="Moderator not found")
-    # Find subTopiqs where the given moderator ID exists in the moderators list
     subtopiqs = db.subTopiq.find({"moderators.moderatorId": moderator_oid})
 
-    # Convert results to the desired format
     return [
         {
             "id": str(sub["_id"]),
@@ -89,6 +89,7 @@ async def view_subtopiq_by_moderator_id(moderator_id: str):
 @subtopiq_router.get("/created/{creator_id}", response_model=List[SubTopiq])
 async def view_subtopiq_by_creator_id(creator_id: str):
     subtopiqs = db.subTopiq.find({"creatorId": ObjectId(creator_id)})
+
     if not subtopiqs:
         raise HTTPException(status_code=404, detail="SubTopiq not found")
 
@@ -107,6 +108,7 @@ async def view_subtopiq_by_creator_id(creator_id: str):
 @subtopiq_router.post("/addmod/{subtopiq_id}/{user_id}")
 async def add_moderator_to_subtopiq(subtopiq_id: str, user_id: str, current_user=Depends(get_current_user)):
     subtopiq = db.subTopiq.find_one({"_id": ObjectId(subtopiq_id)})
+
     if not subtopiq:
         raise HTTPException(status_code=404, detail="SubTopiq not found")
 
@@ -124,4 +126,63 @@ async def add_moderator_to_subtopiq(subtopiq_id: str, user_id: str, current_user
 
     return {"message": f"User {user_id} added as a moderator to SubTopiq {subtopiq_id}"}
 
+# Subscribe to a subTopiq
+@subtopiq_router.post("/subscribe/{user_id}/{subtopiq_id}")
+async def subscribe_to_subtopiq(user_id: str, subtopiq_id: str):
+    try:
+        user_oid = ObjectId(user_id)
+        subtopiq_oid = ObjectId(subtopiq_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid user or subTopiq ID format")
 
+    user = db.users.find_one({"_id": user_oid})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if subtopiq_id in user.get("subTopiqs", []):
+        raise HTTPException(status_code=400, detail="User is already subscribed to this subTopiq")
+
+    db.users.update_one({"_id": user_oid}, {"$push": {"subTopiqs": str(subtopiq_oid)}})
+    
+    return {"message": f"User {user_id} subscribed to SubTopiq {subtopiq_id}"}
+
+# Unsubscribe from a subTopiq
+@subtopiq_router.post("/unsubscribe/{user_id}/{subtopiq_id}")
+async def unsubscribe_from_subtopiq(user_id: str, subtopiq_id: str):
+    try:
+        user_oid = ObjectId(user_id)
+        subtopiq_oid = ObjectId(subtopiq_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid user or subTopiq ID format")
+
+    user = db.users.find_one({"_id": user_oid})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    if subtopiq_id not in user.get("subTopiqs", []):
+        raise HTTPException(status_code=400, detail="User is not subscribed to this subTopiq")
+
+    db.users.update_one({"_id": user_oid}, {"$pull": {"subTopiqs": str(subtopiq_oid)}})
+    
+    return {"message": f"User {user_id} unsubscribed from SubTopiq {subtopiq_id}"}
+
+# Delete a subTopiq by ID
+@subtopiq_router.delete("/delete/{subtopiq_id}", response_model=dict)
+async def delete_subtopiq(subtopiq_id: str):
+    try:
+        subtopiq_oid = ObjectId(subtopiq_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid subTopiq ID format")
+
+    subtopiq = db.subTopiq.find_one({"_id": subtopiq_oid})
+    if not subtopiq:
+        raise HTTPException(status_code=404, detail="SubTopiq not found")
+
+    result = db.subTopiq.delete_one({"_id": subtopiq_oid})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="SubTopiq not found")
+
+
+    db.posts.delete_many({"subTopiqId": subtopiq_oid})
+    db.users.update_many({}, {"$pull": {"subTopiqs": subtopiq_id}})
+    return {"message": f"SubTopiq {subtopiq_id} and related data deleted successfully"}

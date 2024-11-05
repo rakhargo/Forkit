@@ -9,10 +9,7 @@ from database import *
 # Create router
 user_router = APIRouter()
 
-# Utility function to convert ObjectId to string
-def str_objectid(oid):
-    return str(oid) if isinstance(oid, ObjectId) else oid
-
+# Register endpoint
 @user_router.post("/register", response_model=User)
 async def register_user(user: UserCreate):
     hashed_password = get_password_hash(user.password)
@@ -21,6 +18,7 @@ async def register_user(user: UserCreate):
     user_data["posts"] = []
     user_data["upVotes"] = []
     user_data["downVotes"] = []
+    user_data["subTopiqs"] = []
     result = db.users.insert_one(user_data)
     user_data["id"] = str(result.inserted_id)
     return user_data
@@ -54,6 +52,10 @@ async def login(username: str, password: str):
         "token_type": "bearer",
         "user_id": user_id  # Include user ID in the response
     }
+# Logout endpoint (client should handle token invalidation)
+@user_router.post("/logout")
+async def logout():
+    return {"message": "User logged out successfully"}
 
 # List all users
 @user_router.get("/all", response_model=List[User])
@@ -61,11 +63,12 @@ async def list_all_users():
     users = db.users.find()
     return [
         {
-            "id": str_objectid(user["_id"]),
+            "id": str(user["_id"]),
             "username": user["username"],
             "email": user["email"],
             "phone": user["phone"],
             "posts": user["posts"],
+            "subTopiqs": user["subTopiqs"],
             "upVotes": user["upVotes"],
             "downVotes": user["downVotes"]
         }
@@ -85,16 +88,38 @@ async def get_user_by_id(user_id: str):
         raise HTTPException(status_code=404, detail="User not found")
     
     return {
-        "id": str_objectid(user["_id"]),
+        "id": str(user["_id"]),
         "username": user["username"],
         "email": user["email"],
         "phone": user["phone"],
         "posts": user["posts"],
+        "subTopiqs": user["subTopiqs"],
         "upVotes": user["upVotes"],
         "downVotes": user["downVotes"]
     }
 
-# Logout endpoint (client should handle token invalidation)
-@user_router.post("/logout")
-async def logout():
-    return {"message": "User logged out successfully"}
+# Delete a user by ID
+@user_router.delete("/delete/{user_id}", response_model=dict)
+async def delete_user(user_id: str):
+    try:
+        user_oid = ObjectId(user_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid user ID format")
+
+    # Check if the user exists
+    user = db.users.find_one({"_id": user_oid})
+    if not user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Delete the user from the users collection
+    result = db.users.delete_one({"_id": user_oid})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    # Optionally, delete or update related records in other collections
+    # For example, delete posts created by this user or remove subscriptions in subTopiqs
+    db.posts.delete_many({"creatorId": user_oid})
+    db.subTopiq.update_many({"moderators.moderatorId": user_oid}, {"$pull": {"moderators": {"moderatorId": user_oid}}})
+    db.subTopiq.update_many({}, {"$pull": {"posts": {"postId": {"$in": user.get("posts", [])}}}})
+
+    return {"message": f"User {user_id} and related data deleted successfully"}

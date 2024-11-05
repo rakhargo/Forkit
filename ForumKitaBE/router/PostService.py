@@ -18,7 +18,6 @@ async def create_post(title: str, description: str, creator_id: str, subtopiq_id
     except Exception:
         raise HTTPException(status_code=400, detail="Invalid ID format")
 
-    # Insert post into the posts collection
     post_data = {
         "title": title,
         "description": description,
@@ -28,33 +27,18 @@ async def create_post(title: str, description: str, creator_id: str, subtopiq_id
         "creatorId": creator_oid,
         "subTopiqId": subtopiq_oid,
     }
+
     result = db.posts.insert_one(post_data)
     post_id = result.inserted_id
 
-    # Update user and subTopiq collections
     db.users.update_one({"_id": creator_oid}, {"$push": {"posts": {"postId": post_id}}})
     db.subTopiq.update_one({"_id": subtopiq_oid}, {"$push": {"posts": {"postId": post_id}}})
 
-    # Format and return the created post data
     post_data["id"] = str(post_id)
     post_data["creatorId"] = str(post_data["creatorId"])
     post_data["subTopiqId"] = str(post_data["subTopiqId"])
 
     return post_data
-
-# Delete a post by ID
-@post_router.delete("/{post_id}", response_model=dict)
-async def delete_post(post_id: str):
-    try:
-        post_oid = ObjectId(post_id)
-    except Exception:
-        raise HTTPException(status_code=400, detail="Invalid post ID format")
-
-    result = db.posts.delete_one({"_id": post_oid})
-    if result.deleted_count == 0:
-        raise HTTPException(status_code=404, detail="Post not found")
-    
-    return {"message": "Post deleted successfully"}
 
 # View all posts
 @post_router.get("/posts", response_model=List[Post])
@@ -73,6 +57,22 @@ async def view_all_posts():
         }
         for post in posts
     ]
+
+@post_router.get("/{post_id}", response_model=Post)
+async def get_post_by_id(id: str):
+    post = db.posts.find_one({"_id": ObjectId(id)})
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+    return {
+        "id": str(post["_id"]),
+        "title": post["title"],
+        "description": post["description"],
+        "upVote": post["upVote"],
+        "downVote": post["downVote"],
+        "replies": [{"reply": r["reply"], "creatorId": str(r["creatorId"])} for r in post.get("replies", [])],
+        "creatorId": str(post["creatorId"]),
+        "subTopiqId": str(post["subTopiqId"]),
+    }
 
 # View posts on a specific subTopiq
 @post_router.get("/subtopiq/{subtopiq_id}", response_model=List[Post])
@@ -192,3 +192,65 @@ async def downvote_post(post_id: str, user_id: str):
     db.users.update_one({"_id": user_oid}, {"$push": {"downVotes": {"postId": post_oid}}})
 
     return {"message": "Post downvoted successfully"}
+
+
+# Get all replies for a specific post
+@post_router.get("/replies/post/{post_id}", response_model=List[Reply])
+async def get_replies_by_post_id(post_id: str):
+    try:
+        post_oid = ObjectId(post_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid post ID format")
+
+    post = db.posts.find_one({"_id": post_oid})
+    if not post:
+        raise HTTPException(status_code=404, detail="Post not found")
+
+    return [
+        {
+            "reply": r["reply"],
+            "creatorId": str(r["creatorId"])
+        }
+        for r in post.get("replies", [])
+    ]
+
+# Get all replies by a specific user
+@post_router.get("/replies/user/{user_id}", response_model=List[Reply])
+async def get_replies_by_user(user_id: str):
+    try:
+        user_oid = ObjectId(user_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid user ID format")
+
+    # Find all posts where replies have the given creatorId
+    posts = db.posts.find({"replies.creatorId": user_oid})
+    user_replies = [
+        {
+            "reply": reply["reply"],
+            "creatorId": str(reply["creatorId"])
+        }
+        for post in posts
+        for reply in post.get("replies", [])
+        if reply["creatorId"] == user_oid
+    ]
+
+    if not user_replies:
+        raise HTTPException(status_code=404, detail="No replies found for this user")
+
+    return user_replies
+
+# Delete a post by ID
+@post_router.delete("/{post_id}", response_model=dict)
+async def delete_post(post_id: str):
+    try:
+        post_oid = ObjectId(post_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid post ID format")
+
+    result = db.posts.delete_one({"_id": post_oid})
+    if result.deleted_count == 0:
+        raise HTTPException(status_code=404, detail="Post not found")
+    
+    return {"message": "Post deleted successfully"}
+
+
