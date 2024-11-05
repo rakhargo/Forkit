@@ -3,6 +3,7 @@ import { ref, onMounted } from 'vue'
 import PostCard from '../components/PostCard.vue'
 import Sidebar from '../components/Sidebar.vue'
 import { useRouter } from 'vue-router'
+import { usePostStore } from '../stores/postStore';
 
 const router = useRouter()
 const loading = ref(false)
@@ -104,20 +105,26 @@ const handleScroll = (e: Event) => {
   }
 }
 
+const postStore = usePostStore();
 onMounted(() => {
   loadMorePosts()
-})
+  postStore.fetchAllPosts();
+});
 </script>
 
 <template>
   <main class="main-content">
     <div class="scrollable-content hide-scrollbar" @scroll="handleScroll">
-      <PostCard
+      <!-- <PostCard
         v-for="post in posts"
         :key="post.id"
         :post="post"
+      /> -->
+      <PostCard 
+        v-for="post in postStore.posts" 
+        :key="post.id" 
+        :post="post" 
       />
-      
       <div v-if="loading" class="loading-spinner">
         Loading more posts...
       </div>
