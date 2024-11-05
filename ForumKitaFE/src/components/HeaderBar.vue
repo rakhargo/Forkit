@@ -1,29 +1,68 @@
 <script setup lang="ts">
-import { MagnifyingGlassIcon, UserCircleIcon } from '@heroicons/vue/24/outline'
-import { useRouter } from 'vue-router'
-import IconForumKita  from './icons/IconForumKita.vue'
+import { ref } from 'vue'
+import { MagnifyingGlassIcon, UserCircleIcon, PlusIcon } from '@heroicons/vue/24/outline'
+import { useRouter, useRoute } from 'vue-router'
 
 const router = useRouter()
+const route = useRoute()
+const searchQuery = ref('')
+
+const handleSearch = () => {
+  if (!searchQuery.value.trim()) return
+  
+  if (route.name === 'subforum') {
+    // Search within subforum
+    router.push({
+      name: 'subforum',
+      params: { name: route.params.name },
+      query: { q: searchQuery.value }
+    })
+  } else {
+    // Global search
+    router.push({
+      name: 'search',
+      query: { q: searchQuery.value }
+    })
+  }
+}
 </script>
 
 <template>
   <header class="header">
     <div class="container header-content">
-      <IconForumKita> </IconForumKita>
+      <h1 class="logo" @click="router.push('/')">
+        <span class="logo-forum">Forum</span>
+        <span class="logo-kita">Kita</span>
+      </h1>
       
-      <div class="search-container">
+      <form class="search-container" @submit.prevent="handleSearch">
         <MagnifyingGlassIcon class="search-icon" />
-        <input type="text" placeholder="Cari di ForumKita" class="search-input" />
-      </div>
-
-      <div class="auth-buttons">
-        <router-link to="/login" class="btn btn-primary">
-          Masuk
-        </router-link>
-        <UserCircleIcon
-          class="user-icon"
-          @click="router.push('/u/myusername')"
+        <input 
+          v-model="searchQuery"
+          type="text" 
+          :placeholder="route.name === 'subforum' ? 'Cari di subforum ini...' : 'Cari subforum...'" 
+          class="search-input" 
         />
+      </form>
+
+      <div class="header-actions">
+        <button 
+          class="btn btn-primary new-post-btn"
+          @click="router.push('/create-post')"
+        >
+          <PlusIcon class="btn-icon" />
+          <span>Post Baru</span>
+        </button>
+        
+        <div class="auth-buttons">
+          <router-link to="/login" class="btn btn-primary">
+            Masuk
+          </router-link>
+          <UserCircleIcon
+            class="user-icon"
+            @click="router.push('/u/myusername')"
+          />
+        </div>
       </div>
     </div>
   </header>
@@ -37,14 +76,26 @@ const router = useRouter()
   width: 100%;
   top: 0;
   z-index: 1000;
+  height: var(--header-height);
 }
 
 .header-content {
-  height: 56px;
+  height: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 20px;
+}
+
+.logo {
+  font-size: 24px;
+  font-weight: bold;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.logo-forum {
+  color: var(--primary-color);
 }
 
 .search-container {
@@ -75,6 +126,24 @@ const router = useRouter()
   width: 20px;
   height: 20px;
   color: var(--gray-medium);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.new-post-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+}
+
+.btn-icon {
+  width: 20px;
+  height: 20px;
 }
 
 .auth-buttons {

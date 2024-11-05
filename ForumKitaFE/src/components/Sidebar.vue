@@ -5,11 +5,21 @@ import { useRouter } from 'vue-router'
 const router = useRouter()
 
 const communities = [
-  { name: 'indonesia', members: '250K' },
-  { name: 'programming', members: '180K' },
-  { name: 'gaming', members: '150K' },
-  { name: 'technology', members: '120K' },
-  { name: 'science', members: '100K' },
+  { name: 'indonesia', members: '250K', description: 'Komunitas Indonesia' },
+  { name: 'programming', members: '180K', description: 'Diskusi Programming' },
+  { name: 'gaming', members: '150K', description: 'Komunitas Gaming' },
+  { name: 'technology', members: '120K', description: 'Teknologi Terkini' },
+  { name: 'science', members: '100K', description: 'Sains dan Penelitian' },
+  { name: 'movies', members: '90K', description: 'Film dan Series' },
+  { name: 'music', members: '85K', description: 'Musik Indonesia' },
+  { name: 'food', members: '75K', description: 'Kuliner Nusantara' },
+  { name: 'sports', members: '70K', description: 'Olahraga' },
+  { name: 'books', members: '65K', description: 'Komunitas Buku' },
+  { name: 'art', members: '60K', description: 'Seni dan Kreativitas' },
+  { name: 'photography', members: '55K', description: 'Fotografi' },
+  { name: 'finance', members: '50K', description: 'Keuangan dan Investasi' },
+  { name: 'health', members: '45K', description: 'Kesehatan' },
+  { name: 'education', members: '40K', description: 'Pendidikan' }
 ]
 
 const goToSubforum = (name: string) => {
@@ -32,6 +42,7 @@ const goToSubforum = (name: string) => {
             <div class="community-avatar"></div>
             <div>
               <div class="community-name">f/{{ community.name }}</div>
+              <div class="community-description">{{ community.description }}</div>
               <div class="community-members">{{ community.members }} members</div>
             </div>
           </div>
@@ -62,7 +73,9 @@ const goToSubforum = (name: string) => {
 
 <style scoped>
 .sidebar {
-  width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
 .sidebar-card {
@@ -70,7 +83,6 @@ const goToSubforum = (name: string) => {
   border-radius: 8px;
   box-shadow: var(--shadow);
   padding: 16px;
-  margin-bottom: 16px;
 }
 
 .sidebar-title {
@@ -100,8 +112,9 @@ const goToSubforum = (name: string) => {
 
 .community-info {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 8px;
+  flex: 1;
 }
 
 .community-avatar {
@@ -109,10 +122,18 @@ const goToSubforum = (name: string) => {
   height: 32px;
   border-radius: 50%;
   background: linear-gradient(135deg, #60a5fa, #a855f7);
+  flex-shrink: 0;
 }
 
 .community-name {
   font-weight: 500;
+  margin-bottom: 2px;
+}
+
+.community-description {
+  font-size: 12px;
+  color: var(--text-color);
+  margin-bottom: 2px;
 }
 
 .community-members {
@@ -126,6 +147,8 @@ const goToSubforum = (name: string) => {
   border: none;
   font-size: 14px;
   cursor: pointer;
+  white-space: nowrap;
+  padding-left: 8px;
 }
 
 .join-button:hover {

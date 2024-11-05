@@ -3,8 +3,8 @@ import { ref, computed } from 'vue'
 import { useRoute } from 'vue-router'
 import { formatDistanceToNow } from 'date-fns'
 import { id } from 'date-fns/locale'
-import { HeartIcon } from '@heroicons/vue/24/outline'
-import { HeartIcon as HeartSolidIcon } from '@heroicons/vue/24/solid'
+import { ArrowUpIcon, ArrowDownIcon, HeartIcon } from '@heroicons/vue/24/outline'
+import { ArrowUpIcon as ArrowUpSolidIcon, ArrowDownIcon as ArrowDownSolidIcon, HeartIcon as HeartSolidIcon } from '@heroicons/vue/24/solid'
 
 const route = useRoute()
 const postId = computed(() => route.params.id)
@@ -14,8 +14,8 @@ const post = ref({
   title: 'Tips Belajar Programming untuk Pemula',
   content: 'Mulai dengan dasar-dasar, pilih satu bahasa pemrograman dan konsisten belajar setiap hari. Jangan lupa untuk praktek dan membuat project sendiri.',
   author: 'programmer_sejati',
-  likes: 156,
-  isLiked: false,
+  votes: 156,
+  userVote: null,
   createdAt: new Date('2024-03-10T08:00:00')
 })
 
@@ -35,13 +35,36 @@ const comments = ref([
         content: 'emang mantap',
         author: 'atminrakha21321313',
         likes: 12,
-        isLiked: true,
+        isLiked: false,
         createdAt: new Date('2024-03-10T10:15:00'),
         replies: []
       }
     ]
   }
 ])
+
+const handlePostVote = (type: 'up' | 'down') => {
+  if (post.value.userVote === type) {
+    post.value.userVote = null
+    post.value.votes += type === 'up' ? -1 : 1
+  } else {
+    if (post.value.userVote) {
+      post.value.votes += post.value.userVote === 'up' ? -2 : 2
+    } else {
+      post.value.votes += type === 'up' ? 1 : -1
+    }
+    post.value.userVote = type
+  }
+}
+
+const toggleLike = (target: { likes: number; isLiked: boolean }) => {
+  if (target.isLiked) {
+    target.likes--
+  } else {
+    target.likes++
+  }
+  target.isLiked = !target.isLiked
+}
 
 const handleSubmitComment = () => {
   if (!newComment.value.trim()) return
@@ -75,18 +98,8 @@ const handleSubmitComment = () => {
   replyingTo.value = null
 }
 
-const toggleLike = (target: { likes: number; isLiked: boolean }) => {
-  if (target.isLiked) {
-    target.likes--
-  } else {
-    target.likes++
-  }
-  target.isLiked = !target.isLiked
-}
-
 const startReply = (commentId: number, username: string) => {
   replyingTo.value = { commentId, username }
-  // Focus the comment input
   const commentInput = document.querySelector('.comment-input') as HTMLTextAreaElement
   if (commentInput) {
     commentInput.focus()
@@ -102,23 +115,35 @@ const cancelReply = () => {
 <template>
   <div class="comments-container">
     <div class="post-preview">
+      <div class="vote-buttons">
+        <button 
+          class="vote-button" 
+          :class="{ 'voted': post.userVote === 'up' }"
+          @click="handlePostVote('up')"
+        >
+          <ArrowUpSolidIcon v-if="post.userVote === 'up'" class="vote-icon" />
+          <ArrowUpIcon v-else class="vote-icon" />
+        </button>
+        <span class="vote-count" :class="{
+          'positive': post.votes > 0,
+          'negative': post.votes < 0
+        }">{{ post.votes }}</span>
+        <button 
+          class="vote-button" 
+          :class="{ 'voted': post.userVote === 'down' }"
+          @click="handlePostVote('down')"
+        >
+          <ArrowDownSolidIcon v-if="post.userVote === 'down'" class="vote-icon" />
+          <ArrowDownIcon v-else class="vote-icon" />
+        </button>
+      </div>
+      
       <div class="post-content">
         <div class="post-meta">
           Posted by {{ post.author }} {{ formatDistanceToNow(post.createdAt, { addSuffix: true, locale: id }) }}
         </div>
         <h1 class="post-title">{{ post.title }}</h1>
         <p class="post-text">{{ post.content }}</p>
-        <div class="post-actions">
-          <button 
-            class="like-button" 
-            :class="{ 'liked': post.isLiked }"
-            @click="toggleLike(post)"
-          >
-            <HeartSolidIcon v-if="post.isLiked" class="heart-icon" />
-            <HeartIcon v-else class="heart-icon" />
-            <span>{{ post.likes }}</span>
-          </button>
-        </div>
       </div>
     </div>
 
@@ -187,7 +212,6 @@ const cancelReply = () => {
                       <HeartIcon v-else class="heart-icon" />
                       <span>{{ reply.likes }}</span>
                     </button>
-                    <!-- Remove reply button for second level comments -->
                     <button class="action-link">Share</button>
                   </div>
                 </div>
@@ -212,9 +236,54 @@ const cancelReply = () => {
   border-radius: 8px;
   box-shadow: var(--shadow);
   margin-bottom: 20px;
+  display: flex;
+}
+
+.vote-buttons {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 8px;
+  background: var(--gray-light);
+  border-radius: 8px 0 0 8px;
+}
+
+.vote-button {
+  background: none;
+  border: none;
+  padding: 4px;
+  cursor: pointer;
+  color: var(--gray-medium);
+}
+
+.vote-button:hover {
+  color: var(--primary-color);
+}
+
+.vote-button.voted {
+  color: var(--primary-color);
+}
+
+.vote-icon {
+  width: 20px;
+  height: 20px;
+}
+
+.vote-count {
+  font-weight: 600;
+  margin: 4px 0;
+}
+
+.vote-count.positive {
+  color: var(--primary-color);
+}
+
+.vote-count.negative {
+  color: var(--error-color);
 }
 
 .post-content {
+  flex: 1;
   padding: 20px;
 }
 
