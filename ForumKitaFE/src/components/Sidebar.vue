@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { ChartBarIcon, FireIcon, StarIcon } from '@heroicons/vue/24/outline'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/userStore';
+import { useSubTopiqStore } from '../stores/subTopiqStore';
+import { onMounted } from 'vue';
 
 const router = useRouter()
 
@@ -22,28 +25,39 @@ const communities = [
   { name: 'education', members: '40K', description: 'Pendidikan' }
 ]
 
+const subTopiqStore = useSubTopiqStore();
+const userStore = useUserStore();
 const goToSubforum = (name: string) => {
   router.push(`/f/${name}`)
 }
+
+const handleSubTopiq = async (subTopiqId: string) => {
+  await subTopiqStore.fetchSubTopiqById(subTopiqId)
+}
+
+onMounted(() => {
+  console.log(userStore.user?.subTopiqs)
+});
 </script>
 
 <template>
   <aside class="sidebar">
     <div class="sidebar-card">
-      <h2 class="sidebar-title">Subforum Populer</h2>
+      <h2 class="sidebar-title">Subforum saya</h2>
       <div class="communities-list">
         <div
-          v-for="community in communities"
-          :key="community.name"
+          v-for="subtopiqId in userStore.user?.subTopiqs"
+          :key="subtopiqId"
           class="community-item"
-          @click="goToSubforum(community.name)"
+          @click="goToSubforum(subtopiqId)"
         >
+        {{ handleSubTopiq(subtopiqId) }}
           <div class="community-info">
             <div class="community-avatar"></div>
             <div>
-              <div class="community-name">f/{{ community.name }}</div>
-              <div class="community-description">{{ community.description }}</div>
-              <div class="community-members">{{ community.members }} members</div>
+              <div class="community-name">f/{{ subTopiqStore.subtopiq?.name }}</div>
+              <!-- <div class="community-description">{{ subTopiqStore.subtopiq. }}</div> -->
+              <!-- <div class="community-members">{{ subtopiqId }} members</div> -->
             </div>
           </div>
           <button class="join-button">Join</button>

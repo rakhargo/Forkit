@@ -1,3 +1,6 @@
+import { SubTopiqs } from './subTopiq';
+import { Posts } from './posts';
+
 export interface Users {
     username: string;
     password: string;
