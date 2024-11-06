@@ -1,144 +1,71 @@
 [{
   "_id": {
-    "$oid": "672368a6e797160ae858bc23"
+    "$oid": "6729e2e272b6faff35a27c7d"
   },
-  "title": "Rakha Hitam",
-  "description": "Rakha adalah orang hitam yang berasal dari negara Zimbabwe",
+  "title": "Bakon x Ambalabu collab??",
+  "description": "Apakah bakon dan ambalabu akan collab menjadi ambalabatukam???",
+  "upVote": 1,
+  "downVote": 0,
+  "replies": [
+    {
+      "reply": "Gajadi, udah nemu, katanya bakal collab di 12 september kata RAKHA DHIFIARGO HARIADI",
+      "creatorId": {
+        "$oid": "6729dddff3d63a4eaabfd0dc"
+      }
+    }
+  ],
+  "creatorId": {
+    "$oid": "6729dddff3d63a4eaabfd0dc"
+  },
+  "subTopiqId": {
+    "$oid": "6729dfc9228392b57dccc6e5"
+  }
+},
+{
+  "_id": {
+    "$oid": "6729f8d4e788dd9d2f0ca749"
+  },
+  "title": "Agus Sobandi Kaprodi Baru???",
+  "description": "Gw denger agus sobandi dirmawa jdi kaprodi",
+  "upVote": 1,
+  "downVote": 0,
+  "replies": [],
+  "creatorId": {
+    "$oid": "6729dddff3d63a4eaabfd0dc"
+  },
+  "subTopiqId": {
+    "$oid": "6729e1d9f5e4416aad6f187b"
+  }
+},
+{
+  "_id": {
+    "$oid": "6729f92de788dd9d2f0ca74a"
+  },
+  "title": "wtfffff beneran agusob jdi kaprodi???",
+  "description": "Gw denger agus sobandi dirmawa jdi kaprodi",
   "upVote": 0,
   "downVote": 0,
-  "replies": [
-    {
-      "reply": "Aku sangat suka rakha",
-      "creatorId": {
-        "$oid": "67236890e797160ae858bc1e"
-      }
-    },
-    {
-      "reply": "Aku mencintai rakha",
-      "creatorId": {
-        "$oid": "67236890e797160ae858bc1f"
-      }
-    }
-  ],
+  "replies": [],
   "creatorId": {
-    "$oid": "67236890e797160ae858bc1f"
+    "$oid": "6729dddff3d63a4eaabfd0dc"
   },
   "subTopiqId": {
-    "$oid": "6723689ce797160ae858bc21"
+    "$oid": "6729e1d9f5e4416aad6f187b"
   }
 },
 {
   "_id": {
-    "$oid": "672368a6e797160ae858bc24"
+    "$oid": "6729f936e788dd9d2f0ca74b"
   },
-  "title": "Art in the Modern World",
-  "description": "Exploring the evolution of art styles in the 21st century",
-  "upVote": 5,
-  "downVote": 2,
-  "replies": [
-    {
-      "reply": "This is a fascinating topic!",
-      "creatorId": {
-        "$oid": "67236890e797160ae858bc21"
-      }
-    }
-  ],
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc20"
-  },
-  "subTopiqId": {
-    "$oid": "6723689ce797160ae858bc26"
-  }
-},
-{
-  "_id": {
-    "$oid": "672368a6e797160ae858bc25"
-  },
-  "title": "Tech Trends in 2024",
-  "description": "An overview of emerging technology trends for the year",
-  "upVote": 10,
-  "downVote": 0,
-  "replies": [
-    {
-      "reply": "Can't wait to see what's next!",
-      "creatorId": {
-        "$oid": "67236890e797160ae858bc23"
-      }
-    }
-  ],
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc22"
-  },
-  "subTopiqId": {
-    "$oid": "6723689ce797160ae858bc23"
-  }
-},
-{
-  "_id": {
-    "$oid": "672368a6e797160ae858bc26"
-  },
-  "title": "Top Movies of 2023",
-  "description": "A recap of the best movies released in 2023",
-  "upVote": 8,
+  "title": "gw denger gusob jdi kaprodi",
+  "description": "Gw denger agus sobandi dirmawa jdi kaprodi",
+  "upVote": 0,
   "downVote": 1,
-  "replies": [
-    {
-      "reply": "Loved the selection this year!",
-      "creatorId": {
-        "$oid": "67236890e797160ae858bc21"
-      }
-    }
-  ],
+  "replies": [],
   "creatorId": {
-    "$oid": "67236890e797160ae858bc21"
+    "$oid": "6729dddff3d63a4eaabfd0dc"
   },
   "subTopiqId": {
-    "$oid": "6723689ce797160ae858bc25"
-  }
-},
-{
-  "_id": {
-    "$oid": "672368a6e797160ae858bc27"
-  },
-  "title": "Future of Gaming",
-  "description": "Discussing what lies ahead for the gaming industry",
-  "upVote": 6,
-  "downVote": 3,
-  "replies": [
-    {
-      "reply": "The future looks promising!",
-      "creatorId": {
-        "$oid": "67236890e797160ae858bc24"
-      }
-    }
-  ],
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc24"
-  },
-  "subTopiqId": {
-    "$oid": "6723689ce797160ae858bc24"
-  }
-},
-{
-  "_id": {
-    "$oid": "672368a6e797160ae858bc28"
-  },
-  "title": "Music Genres to Explore",
-  "description": "A dive into lesser-known music genres",
-  "upVote": 3,
-  "downVote": 1,
-  "replies": [
-    {
-      "reply": "Great recommendations!",
-      "creatorId": {
-        "$oid": "67236890e797160ae858bc20"
-      }
-    }
-  ],
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc20"
-  },
-  "subTopiqId": {
-    "$oid": "6723689ce797160ae858bc22"
+    "$oid": "6729e1d9f5e4416aad6f187b"
   }
 }]

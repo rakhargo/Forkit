@@ -1,108 +1,33 @@
 [{
   "_id": {
-    "$oid": "6723689ce797160ae858bc21"
+    "$oid": "6729e1d9f5e4416aad6f187b"
   },
-  "name": "ambalabu",
+  "name": "Pecinta_Bakon",
   "creatorId": {
-    "$oid": "67236890e797160ae858bc1e"
+    "$oid": "6729dddff3d63a4eaabfd0dc"
   },
   "moderators": [
     {
       "moderatorId": {
-        "$oid": "67236890e797160ae858bc1f"
+        "$oid": "6729dddff3d63a4eaabfd0dc"
       }
     }
   ],
   "posts": [
     {
       "postId": {
-        "$oid": "672368a6e797160ae858bc23"
+        "$oid": "6729f8d4e788dd9d2f0ca749"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "6729f92de788dd9d2f0ca74a"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "6729f936e788dd9d2f0ca74b"
       }
     }
   ]
-},
-{
-  "_id": {
-    "$oid": "6723689ce797160ae858bc22"
-  },
-  "name": "musicfanatics",
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc20"
-  },
-  "moderators": [
-    {
-      "moderatorId": {
-        "$oid": "67236890e797160ae858bc21"
-      }
-    }
-  ],
-  "posts": []
-},
-{
-  "_id": {
-    "$oid": "6723689ce797160ae858bc23"
-  },
-  "name": "techgurus",
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc22"
-  },
-  "moderators": [
-    {
-      "moderatorId": {
-        "$oid": "67236890e797160ae858bc23"
-      }
-    }
-  ],
-  "posts": []
-},
-{
-  "_id": {
-    "$oid": "6723689ce797160ae858bc24"
-  },
-  "name": "gamingworld",
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc24"
-  },
-  "moderators": [
-    {
-      "moderatorId": {
-        "$oid": "67236890e797160ae858bc20"
-      }
-    }
-  ],
-  "posts": []
-},
-{
-  "_id": {
-    "$oid": "6723689ce797160ae858bc25"
-  },
-  "name": "moviebuffs",
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc21"
-  },
-  "moderators": [
-    {
-      "moderatorId": {
-        "$oid": "67236890e797160ae858bc22"
-      }
-    }
-  ],
-  "posts": []
-},
-{
-  "_id": {
-    "$oid": "6723689ce797160ae858bc26"
-  },
-  "name": "artenthusiasts",
-  "creatorId": {
-    "$oid": "67236890e797160ae858bc23"
-  },
-  "moderators": [
-    {
-      "moderatorId": {
-        "$oid": "67236890e797160ae858bc24"
-      }
-    }
-  ],
-  "posts": []
 }]

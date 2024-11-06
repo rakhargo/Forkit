@@ -1,90 +1,64 @@
 [{
   "_id": {
-    "$oid": "67236890e797160ae858bc1e"
+    "$oid": "6729dca809537cede1c0fa91"
   },
-  "username": "artefiq",
-  "password": "artefiq",
-  "email": "artefiq@artefiq.com",
-  "phone": "081133445578",
+  "username": "string",
+  "email": "user@example.com",
+  "phone": "string",
+  "password": "$2b$12$DPCByIS9JIoXtO2xVizhdeCkdM40BFS2T2li1eM5wxYekaWtIgYrK",
   "posts": [],
   "upVotes": [],
-  "downVotes": []
+  "downVotes": [],
+  "subTopiqs": []
 },
 {
   "_id": {
-    "$oid": "67236890e797160ae858bc1f"
+    "$oid": "6729dddff3d63a4eaabfd0dc"
   },
-  "username": "rafie",
-  "password": "rafie",
-  "email": "rafie@gmail.com",
-  "phone": "081133445579",
+  "username": "ataufiq",
+  "email": "artefiq@example.com",
+  "phone": "string",
+  "password": "$2b$12$nvxc5axVcf2j47j2ZswKAeYnrLzSqShL3bmD9nTnvMAxXA5GncCti",
   "posts": [
     {
       "postId": {
-        "$oid": "672368a6e797160ae858bc23"
+        "$oid": "6729e2e272b6faff35a27c7d"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "6729f8d4e788dd9d2f0ca749"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "6729f92de788dd9d2f0ca74a"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "6729f936e788dd9d2f0ca74b"
       }
     }
   ],
-  "upVotes": [],
-  "downVotes": []
-},
-{
-  "_id": {
-    "$oid": "67236890e797160ae858bc20"
-  },
-  "username": "johndoe",
-  "password": "john123",
-  "email": "john.doe@example.com",
-  "phone": "081133445580",
-  "posts": [],
-  "upVotes": [],
-  "downVotes": []
-},
-{
-  "_id": {
-    "$oid": "67236890e797160ae858bc21"
-  },
-  "username": "janedoe",
-  "password": "jane123",
-  "email": "jane.doe@example.com",
-  "phone": "081133445581",
-  "posts": [],
-  "upVotes": [],
-  "downVotes": []
-},
-{
-  "_id": {
-    "$oid": "67236890e797160ae858bc22"
-  },
-  "username": "marksmith",
-  "password": "mark123",
-  "email": "mark.smith@example.com",
-  "phone": "081133445582",
-  "posts": [],
-  "upVotes": [],
-  "downVotes": []
-},
-{
-  "_id": {
-    "$oid": "67236890e797160ae858bc23"
-  },
-  "username": "lucyliu",
-  "password": "lucy123",
-  "email": "lucy.liu@example.com",
-  "phone": "081133445583",
-  "posts": [],
-  "upVotes": [],
-  "downVotes": []
-},
-{
-  "_id": {
-    "$oid": "67236890e797160ae858bc24"
-  },
-  "username": "peterparker",
-  "password": "spiderman",
-  "email": "peter.parker@example.com",
-  "phone": "081133445584",
-  "posts": [],
-  "upVotes": [],
-  "downVotes": []
+  "upVotes": [
+    {
+      "postId": {
+        "$oid": "6729e2e272b6faff35a27c7d"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "6729f8d4e788dd9d2f0ca749"
+      }
+    }
+  ],
+  "downVotes": [
+    {
+      "postId": {
+        "$oid": "6729f936e788dd9d2f0ca74b"
+      }
+    }
+  ],
+  "subTopiqs": []
 }]
