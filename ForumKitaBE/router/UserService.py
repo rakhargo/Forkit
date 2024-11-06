@@ -57,7 +57,6 @@ async def login(username: str, password: str):
 async def logout():
     return {"message": "User logged out successfully"}
 
-# List all users
 @user_router.get("/all", response_model=List[User])
 async def list_all_users():
     users = db.users.find()
@@ -67,14 +66,13 @@ async def list_all_users():
             "username": user["username"],
             "email": user["email"],
             "phone": user["phone"],
-            "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])],  # Convert postId to string
-            "subTopiqs": [str(subtopiq) for subtopiq in user.get("subTopiqs", [])],
-            "upVotes": [str(upvote) for upvote in user.get("upVotes", [])],
-            "downVotes": [str(downvote) for downvote in user.get("downVotes", [])]
+            "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])],  # Keep postId as dict
+            "subTopiqs": [{"postId": str(subtopiq)} for subtopiq in user.get("subTopiqs", [])],
+            "upVotes": [{"postId": str(upvote["postId"])} for upvote in user.get("upVotes", [])],  # Keep as dict
+            "downVotes": [{"postId": str(downvote["postId"])} for downvote in user.get("downVotes", [])]  # Keep as dict
         }
         for user in users
     ]
-
 # Get user by ID
 @user_router.get("/id/{user_id}", response_model=User)
 async def get_user_by_id(user_id: str):
