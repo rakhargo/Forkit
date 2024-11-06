@@ -79,7 +79,7 @@ const comments = ref([
       }
     ]
   },
-  
+
 ])
 
 const handlePostVote = (type: 'up' | 'down') => {
@@ -153,105 +153,107 @@ const cancelReply = () => {
 
 <template>
   <div class="comments-container">
-    <div class="post-preview">
-      <div class="vote-buttons">
-        <button 
-          class="vote-button" 
-          :class="{ 'voted': post.userVote === 'up' }"
-          @click="handlePostVote('up')"
-        >
-          <ArrowUpSolidIcon v-if="post.userVote === 'up'" class="vote-icon" />
-          <ArrowUpIcon v-else class="vote-icon" />
-        </button>
-        <span class="vote-count" :class="{
-          'positive': post.votes > 0,
-          'negative': post.votes < 0
-        }">{{ post.votes }}</span>
-        <button 
-          class="vote-button" 
-          :class="{ 'voted': post.userVote === 'down' }"
-          @click="handlePostVote('down')"
-        >
-          <ArrowDownSolidIcon v-if="post.userVote === 'down'" class="vote-icon" />
-          <ArrowDownIcon v-else class="vote-icon" />
-        </button>
-      </div>
-      
-      <div class="post-content">
-        <div class="post-meta">
-          Posted by {{ post.author }} {{ formatDistanceToNow(post.createdAt, { addSuffix: true, locale: id }) }}
+    <div class="content-wrapper">
+      <div class="post-preview">
+        <div class="vote-buttons">
+          <button 
+            class="vote-button" 
+            :class="{ 'voted': post.userVote === 'up' }"
+            @click="handlePostVote('up')"
+          >
+            <ArrowUpSolidIcon v-if="post.userVote === 'up'" class="vote-icon" />
+            <ArrowUpIcon v-else class="vote-icon" />
+          </button>
+          <span class="vote-count" :class="{
+            'positive': post.votes > 0,
+            'negative': post.votes < 0
+          }">{{ post.votes }}</span>
+          <button 
+            class="vote-button" 
+            :class="{ 'voted': post.userVote === 'down' }"
+            @click="handlePostVote('down')"
+          >
+            <ArrowDownSolidIcon v-if="post.userVote === 'down'" class="vote-icon" />
+            <ArrowDownIcon v-else class="vote-icon" />
+          </button>
         </div>
-        <h1 class="post-title">{{ post.title }}</h1>
-        <p class="post-text">{{ post.content }}</p>
-      </div>
-    </div>
-
-    <div class="comments-section">
-      <div class="comment-form">
-        <div v-if="replyingTo" class="reply-indicator">
-          <span>Membalas ke @{{ replyingTo.username }}</span>
-          <button class="cancel-reply" @click="cancelReply">×</button>
+        
+        <div class="post-content">
+          <div class="post-meta">
+            Posted by {{ post.author }} {{ formatDistanceToNow(post.createdAt, { addSuffix: true, locale: id }) }}
+          </div>
+          <h1 class="post-title">{{ post.title }}</h1>
+          <p class="post-text">{{ post.content }}</p>
         </div>
-        <textarea
-          v-model="newComment"
-          :placeholder="replyingTo ? 'Tulis balasan Anda...' : 'Tulis komentar Anda...'"
-          class="comment-input"
-        ></textarea>
-        <button 
-          class="btn btn-primary"
-          @click="handleSubmitComment"
-          :disabled="!newComment.trim()"
-        >
-          {{ replyingTo ? 'Balas' : 'Kirim' }}
-        </button>
       </div>
 
-      <div class="comments-list">
-        <div v-for="comment in comments" :key="comment.id" class="comment">
-          <div class="comment-content">
-            <div class="comment-meta">
-              {{ comment.author }} • {{ formatDistanceToNow(comment.createdAt, { addSuffix: true, locale: id }) }}
-            </div>
-            <p class="comment-text">{{ comment.content }}</p>
-            
-            <div class="comment-actions">
-              <button 
-                class="like-button" 
-                :class="{ 'liked': comment.isLiked }"
-                @click="toggleLike(comment)"
-              >
-                <HeartSolidIcon v-if="comment.isLiked" class="heart-icon" />
-                <HeartIcon v-else class="heart-icon" />
-                <span>{{ comment.likes }}</span>
-              </button>
-              <button 
-                class="action-link"
-                @click="startReply(comment.id, comment.author)"
-              >
-                Reply
-              </button>
-              <button class="action-link">Share</button>
-            </div>
+      <div class="comments-section">
+        <div class="comment-form">
+          <div v-if="replyingTo" class="reply-indicator">
+            <span>Membalas ke @{{ replyingTo.username }}</span>
+            <button class="cancel-reply" @click="cancelReply">×</button>
+          </div>
+          <textarea
+            v-model="newComment"
+            :placeholder="replyingTo ? 'Tulis balasan Anda...' : 'Tulis komentar Anda...'"
+            class="comment-input"
+          ></textarea>
+          <button 
+            class="btn btn-primary"
+            @click="handleSubmitComment"
+            :disabled="!newComment.trim()"
+          >
+            {{ replyingTo ? 'Balas' : 'Kirim' }}
+          </button>
+        </div>
 
-            <div v-if="comment.replies?.length" class="replies">
-              <div v-for="reply in comment.replies" :key="reply.id" class="comment reply">
-                <div class="comment-content">
-                  <div class="comment-meta">
-                    {{ reply.author }} • {{ formatDistanceToNow(reply.createdAt, { addSuffix: true, locale: id }) }}
-                  </div>
-                  <p class="comment-text">{{ reply.content }}</p>
-                  
-                  <div class="comment-actions">
-                    <button 
-                      class="like-button" 
-                      :class="{ 'liked': reply.isLiked }"
-                      @click="toggleLike(reply)"
-                    >
-                      <HeartSolidIcon v-if="reply.isLiked" class="heart-icon" />
-                      <HeartIcon v-else class="heart-icon" />
-                      <span>{{ reply.likes }}</span>
-                    </button>
-                    <button class="action-link">Share</button>
+        <div class="comments-list">
+          <div v-for="comment in comments" :key="comment.id" class="comment">
+            <div class="comment-content">
+              <div class="comment-meta">
+                {{ comment.author }} • {{ formatDistanceToNow(comment.createdAt, { addSuffix: true, locale: id }) }}
+              </div>
+              <p class="comment-text">{{ comment.content }}</p>
+              
+              <div class="comment-actions">
+                <button 
+                  class="like-button" 
+                  :class="{ 'liked': comment.isLiked }"
+                  @click="toggleLike(comment)"
+                >
+                  <HeartSolidIcon v-if="comment.isLiked" class="heart-icon" />
+                  <HeartIcon v-else class="heart-icon" />
+                  <span>{{ comment.likes }}</span>
+                </button>
+                <button 
+                  class="action-link"
+                  @click="startReply(comment.id, comment.author)"
+                >
+                  Reply
+                </button>
+                <button class="action-link">Share</button>
+              </div>
+
+              <div v-if="comment.replies?.length" class="replies">
+                <div v-for="reply in comment.replies" :key="reply.id" class="comment reply">
+                  <div class="comment-content">
+                    <div class="comment-meta">
+                      {{ reply.author }} • {{ formatDistanceToNow(reply.createdAt, { addSuffix: true, locale: id }) }}
+                    </div>
+                    <p class="comment-text">{{ reply.content }}</p>
+                    
+                    <div class="comment-actions">
+                      <button 
+                        class="like-button" 
+                        :class="{ 'liked': reply.isLiked }"
+                        @click="toggleLike(reply)"
+                      >
+                        <HeartSolidIcon v-if="reply.isLiked" class="heart-icon" />
+                        <HeartIcon v-else class="heart-icon" />
+                        <span>{{ reply.likes }}</span>
+                      </button>
+                      <button class="action-link">Share</button>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -264,22 +266,28 @@ const cancelReply = () => {
 </template>
 
 <style scoped>
+.comments-page {
+  min-height: 100vh;
+  padding-top: var(--header-height);
+  background-color: var(--background-color);
+}
+
 .comments-container {
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  padding-top: 76px;
+  width: 100%;
+}
+
+.content-wrapper {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
 .post-preview {
   background: white;
   border-radius: 8px;
   box-shadow: var(--shadow);
-  margin: 0 auto 20px;
+  margin-bottom: 20px;
   display: flex;
-  max-width: 800px;
-  width: 100%;
-  padding: 0 20px;
 }
 
 .vote-buttons {
@@ -351,21 +359,11 @@ const cancelReply = () => {
   background: white;
   border-radius: 8px;
   box-shadow: var(--shadow);
-  margin: 0 auto;
-  max-width: 800px;
-  width: 100%;
-  flex: 1;
-  overflow-y: auto;
   padding: 20px;
 }
 
 .comment-form {
   margin-bottom: 20px;
-  position: sticky;
-  top: 0;
-  background: white;
-  padding: 20px 0;
-  z-index: 1;
 }
 
 .reply-indicator {
