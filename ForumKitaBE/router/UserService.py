@@ -87,7 +87,7 @@ async def list_all_users():
             "email": user["email"],
             "phone": user["phone"],
             "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])], 
-            "subTopiqs": [{"subTopiqId": str(subtopiq)} for subtopiq in user.get("subTopiqs", [])],
+            "subTopiqs": [{"subTopiqId": str(subtopiq["subTopiqId"])} for subtopiq in user.get("subTopiqs", [])],
             "upVotes": [{"postId": str(upvote["postId"])} for upvote in user.get("upVotes", [])], 
             "downVotes": [{"postId": str(downvote["postId"])} for downvote in user.get("downVotes", [])] 
         }
@@ -111,7 +111,7 @@ async def get_user_by_id(user_id: str):
         "email": user["email"],
         "phone": user["phone"],
         "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])], 
-        "subTopiqs": [{"subTopiqId": str(subtopiq)} for subtopiq in user.get("subTopiqs", [])],
+        "subTopiqs": [{"subTopiqId": str(subtopiq["subTopiqId"])} for subtopiq in user.get("subTopiqs", [])],
         "upVotes": [{"postId": str(upvote["postId"])} for upvote in user.get("upVotes", [])], 
         "downVotes": [{"postId": str(downvote["postId"])} for downvote in user.get("downVotes", [])] 
     }
