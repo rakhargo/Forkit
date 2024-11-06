@@ -52,6 +52,26 @@ async def login(username: str, password: str):
         "token_type": "bearer",
         "user_id": user_id  # Include user ID in the response
     }
+
+# # Login yg ngga security issue
+# @user_router.post("/login")
+# async def login(credentials: LoginRequest):
+#     user = db.users.find_one({"username": credentials.username})
+#     if not user or not verify_password(credentials.password, user["password"]):
+#         raise HTTPException(
+#             status_code=status.HTTP_401_UNAUTHORIZED,
+#             detail="Incorrect username or password"
+#         )
+#
+#     user_id = str(user["_id"])
+#     access_token = create_access_token(data={"sub": user["username"]})
+#     return {
+#         "access_token": access_token,
+#         "token_type": "bearer",
+#         "user_id": user_id  # Include user ID in the response
+#     }
+#
+
 # Logout endpoint (client should handle token invalidation)
 @user_router.post("/logout")
 async def logout():
@@ -66,10 +86,10 @@ async def list_all_users():
             "username": user["username"],
             "email": user["email"],
             "phone": user["phone"],
-            "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])],  # Keep postId as dict
-            "subTopiqs": [{"postId": str(subtopiq)} for subtopiq in user.get("subTopiqs", [])],
-            "upVotes": [{"postId": str(upvote["postId"])} for upvote in user.get("upVotes", [])],  # Keep as dict
-            "downVotes": [{"postId": str(downvote["postId"])} for downvote in user.get("downVotes", [])]  # Keep as dict
+            "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])], 
+            "subTopiqs": [{"subTopiqId": str(subtopiq)} for subtopiq in user.get("subTopiqs", [])],
+            "upVotes": [{"postId": str(upvote["postId"])} for upvote in user.get("upVotes", [])], 
+            "downVotes": [{"postId": str(downvote["postId"])} for downvote in user.get("downVotes", [])] 
         }
         for user in users
     ]
@@ -90,10 +110,10 @@ async def get_user_by_id(user_id: str):
         "username": user["username"],
         "email": user["email"],
         "phone": user["phone"],
-        "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])],  # Convert postId to string
-        "subTopiqs": [str(subtopiq) for subtopiq in user.get("subTopiqs", [])],
-        "upVotes": [str(upvote) for upvote in user.get("upVotes", [])],
-        "downVotes": [str(downvote) for downvote in user.get("downVotes", [])]
+        "posts": [{"postId": str(post["postId"])} for post in user.get("posts", [])], 
+        "subTopiqs": [{"subTopiqId": str(subtopiq)} for subtopiq in user.get("subTopiqs", [])],
+        "upVotes": [{"postId": str(upvote["postId"])} for upvote in user.get("upVotes", [])], 
+        "downVotes": [{"postId": str(downvote["postId"])} for downvote in user.get("downVotes", [])] 
     }
 
 # Delete a user by ID

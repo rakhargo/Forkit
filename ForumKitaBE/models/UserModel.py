@@ -4,6 +4,9 @@ from typing import List
 class PostReference(BaseModel):
     postId: str
 
+class SubTopiqReference(BaseModel):
+    subTopiqId: str
+
 class UserBase(BaseModel):
     username: str
     email: EmailStr
@@ -17,4 +20,8 @@ class User(UserBase):
     posts: List[PostReference] = []
     upVotes: List[PostReference] = []
     downVotes: List[PostReference] = []
-    subTopiqs: List[PostReference] = []
+    subTopiqs: List[SubTopiqReference] = []
+
+class LoginRequest(BaseModel):
+    username: str
+    password: str
