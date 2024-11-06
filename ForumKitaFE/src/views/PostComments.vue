@@ -40,7 +40,46 @@ const comments = ref([
         replies: []
       }
     ]
-  }
+  },
+  {
+    id: 3,
+    content: 'Mantap',
+    author: 'shijones123',
+    likes: 25,
+    isLiked: false,
+    createdAt: new Date('2024-03-10T09:30:00'),
+    replies: [
+      {
+        id: 4,
+        content: 'emang mantap',
+        author: 'atminrakha21321313',
+        likes: 12,
+        isLiked: false,
+        createdAt: new Date('2024-03-10T10:15:00'),
+        replies: []
+      }
+    ]
+  },
+  {
+    id: 5,
+    content: 'Mantap',
+    author: 'shijones123',
+    likes: 25,
+    isLiked: false,
+    createdAt: new Date('2024-03-10T09:30:00'),
+    replies: [
+      {
+        id: 6,
+        content: 'emang mantap',
+        author: 'atminrakha21321313',
+        likes: 12,
+        isLiked: false,
+        createdAt: new Date('2024-03-10T10:15:00'),
+        replies: []
+      }
+    ]
+  },
+  
 ])
 
 const handlePostVote = (type: 'up' | 'down') => {
@@ -226,17 +265,21 @@ const cancelReply = () => {
 
 <style scoped>
 .comments-container {
-  padding: 76px 20px 20px;
-  max-width: 800px;
-  margin: 0 auto;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding-top: 76px;
 }
 
 .post-preview {
   background: white;
   border-radius: 8px;
   box-shadow: var(--shadow);
-  margin-bottom: 20px;
+  margin: 0 auto 20px;
   display: flex;
+  max-width: 800px;
+  width: 100%;
+  padding: 0 20px;
 }
 
 .vote-buttons {
@@ -308,11 +351,21 @@ const cancelReply = () => {
   background: white;
   border-radius: 8px;
   box-shadow: var(--shadow);
+  margin: 0 auto;
+  max-width: 800px;
+  width: 100%;
+  flex: 1;
+  overflow-y: auto;
   padding: 20px;
 }
 
 .comment-form {
   margin-bottom: 20px;
+  position: sticky;
+  top: 0;
+  background: white;
+  padding: 20px 0;
+  z-index: 1;
 }
 
 .reply-indicator {
