@@ -187,10 +187,16 @@ async def delete_subtopiq(subtopiq_id: str):
     db.users.update_many({}, {"$pull": {"subTopiqs": subtopiq_id}})
     return {"message": f"SubTopiq {subtopiq_id} and related data deleted successfully"}
 
-# Fetch subTopiq with creator details TUH UDH JOIN YAAAAAAA GW MW TURU
-@subtopiq_router.get("/subtopiqs-with-creators")
-async def get_subtopiqs_with_creators():
-    subtopiqs_with_creators = db.subTopiq.aggregate([
+# Fetch subTopiq with mod details TUH UDH JOIN YAAAAAAA GW MW TURU
+@subtopiq_router.get("/subtopiqs-all/{subtopiq_id}")
+async def get_subtopiq_with_moderators_and_posts(subtopiq_id: str):
+    try:
+        subtopiq_oid = ObjectId(subtopiq_id)
+    except Exception:
+        raise HTTPException(status_code=400, detail="Invalid subTopiq ID format")
+
+    subtopiq_with_moderators_and_posts = db.subTopiq.aggregate([
+        {"$match": {"_id": subtopiq_oid}},  # Match specific subTopiq by ID
         {
             "$lookup": {
                 "from": "users",
@@ -199,24 +205,64 @@ async def get_subtopiqs_with_creators():
                 "as": "creator"
             }
         },
+        {"$unwind": "$creator"},  # Flatten the creator array
         {
-            "$unwind": "$creator"
+            "$lookup": {
+                "from": "users",  # Join with users to get moderator details
+                "localField": "moderators.moderatorId",
+                "foreignField": "_id",
+                "as": "moderators_info"
+            }
+        },
+        {
+            "$lookup": {
+                "from": "posts",  # Join with posts collection to fetch posts for the subTopiq
+                "localField": "_id",
+                "foreignField": "subTopiqId",
+                "as": "posts_info"
+            }
         }
     ])
 
-    results = []
-    for subtopiq in subtopiqs_with_creators:
-        results.append({
-            "id": str(subtopiq["_id"]),
-            "name": subtopiq["name"],
-            "creator": {
-                "id": str(subtopiq["creator"]["_id"]),
-                "username": subtopiq["creator"]["username"],
-                "email": subtopiq["creator"]["email"],
-                "phone": subtopiq["creator"]["phone"]
-            },
-            "moderators": [{"moderatorId": str(mod["moderatorId"])} for mod in subtopiq.get("moderators", [])],
-            "posts": [{"postId": str(post["postId"])} for post in subtopiq.get("posts", [])]
-        })
+    # Format result for JSON response
+    result = next(subtopiq_with_moderators_and_posts, None)  # Get the first document if exists
+    if not result:
+        raise HTTPException(status_code=404, detail="SubTopiq not found")
 
-    return results
+    formatted_result = {
+        "id": str(result["_id"]),
+        "name": result["name"],
+        "creator": {
+            "id": str(result["creator"]["_id"]),
+            "username": result["creator"]["username"],
+            "email": result["creator"]["email"],
+            "phone": result["creator"]["phone"]
+        },
+        "moderators": [
+            {
+                "id": str(mod["_id"]),
+                "username": mod["username"],
+                "email": mod["email"],
+                "phone": mod["phone"]
+            }
+            for mod in result.get("moderators_info", [])
+        ],
+        "posts": [
+            {
+                "id": str(post["_id"]),
+                "title": post["title"],
+                "description": post["description"],
+                "upVote": post["upVote"],
+                "downVote": post["downVote"],
+                "creatorId": str(post["creatorId"]),
+                "replies": [
+                    {"reply": r["reply"], "creatorId": str(r["creatorId"])}
+                    for r in post.get("replies", [])
+                ]
+            }
+            for post in result.get("posts_info", [])
+        ]
+    }
+
+    return formatted_result
+
