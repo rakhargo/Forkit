@@ -125,6 +125,9 @@ export const usePostStore = defineStore('posts', () => {
 
   return {
     posts,
+    post,
+    replies,
+    // reply,
     loading,
     error,
     fetchAllPosts,

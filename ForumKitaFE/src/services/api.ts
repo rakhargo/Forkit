@@ -39,8 +39,7 @@ export const subTopiqService = {
     addModerator: (subTopiqId: string, userId: string) => api.post('/subtopiq/addmod/' + subTopiqId + userId),
     subscribeSubTopiq: (subTopiqId: string, userId: string) => api.post('/subtopiq/subscribe/' + userId + "/" + subTopiqId),
     unsubscribeSubTopiq: (subTopiqId: string, userId: string) => api.post('/subtopiq/unsubscribe/' + userId + "/" + subTopiqId),
-    deleteSubTopiq: (subTopiqId: string) => api.post('/subtopiq/delete/' + subTopiqId),
-    subTopiqCreators: () => api.get('/subtopiq/subtopiqs-with-creator')
+    deleteSubTopiq: (subTopiqId: string) => api.post('/subtopiq/delete/' + subTopiqId)
 };
 
 export const userService = {
