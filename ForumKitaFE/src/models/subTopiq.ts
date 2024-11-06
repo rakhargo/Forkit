@@ -1,3 +1,5 @@
+import { Users } from './users';
+
 export interface SubTopiqs {
     name: string;
     creatorId: string;
