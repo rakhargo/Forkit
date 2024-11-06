@@ -138,11 +138,9 @@ async def subscribe_to_subtopiq(user_id: str, subtopiq_id: str):
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Check if the user is already subscribed to the subTopiq
     if any(str(sub["subTopiqId"]) == subtopiq_id for sub in user.get("subTopiqs", [])):
         raise HTTPException(status_code=400, detail="User is already subscribed to this subTopiq")
 
-    # Push the subTopiq as a dictionary with "subTopiqId" key
     db.users.update_one({"_id": user_oid}, {"$push": {"subTopiqs": {"subTopiqId": str(subtopiq_oid)}}})
     
     return {"message": f"User {user_id} subscribed to SubTopiq {subtopiq_id}"}
@@ -160,11 +158,9 @@ async def unsubscribe_from_subtopiq(user_id: str, subtopiq_id: str):
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
 
-    # Check if the user is subscribed to the subTopiq
     if not any(str(sub["subTopiqId"]) == subtopiq_id for sub in user.get("subTopiqs", [])):
         raise HTTPException(status_code=400, detail="User is not subscribed to this subTopiq")
 
-    # Pull the subTopiq from subTopiqs based on subTopiqId
     db.users.update_one({"_id": user_oid}, {"$pull": {"subTopiqs": {"subTopiqId": str(subtopiq_oid)}}})
     
     return {"message": f"User {user_id} unsubscribed from SubTopiq {subtopiq_id}"}
