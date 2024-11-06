@@ -59,22 +59,37 @@ export const usePostStore = defineStore('posts', () => {
     }
   }
 
-  async function createPost(newPost: Posts) {
+  async function createPost(newPost: Partial<Posts>) {
     try {
-          loading.value = true;
-          const response = await postService.createPost(newPost);
-          if (response && response.data) {
-              post.value = response.data;  // Assuming response.data is of type Posts
-          } else {
-              throw new Error('No data returned');
-          }
-      } catch (err) {
-          console.error(err);  // Logs the specific error for debugging
-          error.value = 'Failed to create post';
-      } finally {
-          loading.value = false;
-      }
-  }
+      loading.value = true;
+      await postService.createPost(newPost);
+      // await fetchPosts(); // Refresh the list after creating
+      return true;
+    } catch (err) {
+      error.value = 'Failed to create post';
+      return false;
+    } finally {
+      loading.value = false;
+    }
+  }
+
+  // function post lama 
+  // async function createPost(newPost: Posts) {
+  //   try {
+  //         loading.value = true;
+  //         const response = await postService.createPost(newPost);
+  //         if (response && response.data) {
+  //             post.value = response.data;  // Assuming response.data is of type Posts
+  //         } else {
+  //             throw new Error('No data returned');
+  //         }
+  //     } catch (err) {
+  //         console.error(err);  // Logs the specific error for debugging
+  //         error.value = 'Failed to create post';
+  //     } finally {
+  //         loading.value = false;
+  //     }
+  // }
 
   async function upVotePost(postId: string) {
     try {
