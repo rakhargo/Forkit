@@ -1,22 +1,28 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/userStore';
 
 const router = useRouter()
-const username = ref('')
-const email = ref('')
-const password = ref('')
-const confirmPassword = ref('')
+const usernameForm = ref('')
+const emailForm = ref('')
+const phoneForm = ref('')
+const passwordForm = ref('')
+const confirmPasswordForm = ref('')
 
 const handleRegister = () => {
   // TODO: Implement register logic
-  console.log('Register:', {
-    username: username.value,
-    email: email.value,
-    password: password.value
+  const userStore = useUserStore();
+  userStore.postRegister({
+    username: usernameForm.value,
+    email: emailForm.value,
+    phone: phoneForm.value,
+    password: passwordForm.value,
   })
   router.push('/login')
 }
+
+
 </script>
 
 <template>
@@ -29,7 +35,7 @@ const handleRegister = () => {
           <label for="username">Username</label>
           <input
             id="username"
-            v-model="username"
+            v-model="usernameForm"
             type="text"
             required
             class="form-input"
@@ -40,8 +46,19 @@ const handleRegister = () => {
           <label for="email">Email</label>
           <input
             id="email"
-            v-model="email"
+            v-model="emailForm"
             type="email"
+            required
+            class="form-input"
+          />
+        </div>
+
+        <div class="form-group">
+          <label for="phone">No. HP</label>
+          <input
+            id="phone"
+            v-model="phoneForm"
+            type="phone"
             required
             class="form-input"
           />
@@ -51,7 +68,7 @@ const handleRegister = () => {
           <label for="password">Password</label>
           <input
             id="password"
-            v-model="password"
+            v-model="passwordForm"
             type="password"
             required
             class="form-input"
@@ -62,7 +79,7 @@ const handleRegister = () => {
           <label for="confirm-password">Konfirmasi Password</label>
           <input
             id="confirm-password"
-            v-model="confirmPassword"
+            v-model="confirmPasswordForm"
             type="password"
             required
             class="form-input"

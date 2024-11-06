@@ -1,15 +1,25 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/userStore';
 
 const router = useRouter()
-const username = ref('')
-const password = ref('')
+const usernameForm = ref('')
+const passwordForm = ref('')
 
-const handleLogin = () => {
+const handleLogin = async () => {
   // TODO: Implement login logic
-  console.log('Login:', { username: username.value, password: password.value })
-  router.push('/')
+  // console.log('Login:', { username: username.value, password: password.value })
+  // const userStore = useUserStore();
+  // const login = userStore.postLogin(usernameForm.value, passwordForm.value)
+  // console.log(login)
+  // router.push('/')
+  const userStore = useUserStore();
+  await userStore.postLogin(usernameForm.value, passwordForm.value);
+  
+  if (userStore.user) {
+    router.push('/');
+  }
 }
 </script>
 
@@ -23,7 +33,7 @@ const handleLogin = () => {
           <label for="username">Username</label>
           <input
             id="username"
-            v-model="username"
+            v-model="usernameForm"
             type="text"
             required
             class="form-input"
@@ -34,7 +44,7 @@ const handleLogin = () => {
           <label for="password">Password</label>
           <input
             id="password"
-            v-model="password"
+            v-model="passwordForm"
             type="password"
             required
             class="form-input"

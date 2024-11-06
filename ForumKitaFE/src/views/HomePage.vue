@@ -4,6 +4,7 @@ import PostCard from '../components/PostCard.vue'
 import Sidebar from '../components/Sidebar.vue'
 import { useRouter } from 'vue-router'
 import { usePostStore } from '../stores/postStore';
+import { useUserStore } from '../stores/userStore';
 
 const router = useRouter()
 const loading = ref(false)
@@ -106,6 +107,8 @@ const handleScroll = (e: Event) => {
 }
 
 const postStore = usePostStore();
+const userStore = useUserStore();
+
 onMounted(() => {
   loadMorePosts()
   postStore.fetchAllPosts();

@@ -43,9 +43,10 @@ export const subTopiqService = {
 };
 
 export const userService = {
-    postRegister: () => api.post('/user/register'),
+    postRegister: (user: Partial<Users>) => api.post<Users>('/user/register', user),
     postToken: () => api.post('/user/token'),
-    postLogin: () => api.post('/user/login'),
+    postLogin: (usernamePassword: { username: string; password: string }) => api.post(`/user/login?username=${usernamePassword.username}&password=${usernamePassword.password}`),
+    // postLogin: (usernamePassword: {username: string, password: string}) => api.post('/user/login', usernamePassword, { headers: { 'Content-Type': 'application/json' }}),
     getAllUsers: () => api.get<Users[]>('/user/all'), 
     getUserById: (userId: string) => api.get('/user/id/' + userId), 
     postLogout: () => api.post('/user/logout'),

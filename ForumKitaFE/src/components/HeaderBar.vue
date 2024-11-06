@@ -2,10 +2,12 @@
 import { ref } from 'vue'
 import { MagnifyingGlassIcon, UserCircleIcon, PlusIcon } from '@heroicons/vue/24/outline'
 import { useRouter, useRoute } from 'vue-router'
+import { useUserStore } from '../stores/userStore';
 
 const router = useRouter()
 const route = useRoute()
 const searchQuery = ref('')
+const userValid = ref(false)
 
 const handleSearch = () => {
   if (!searchQuery.value.trim()) return
@@ -25,6 +27,11 @@ const handleSearch = () => {
     })
   }
 }
+const handleLogout = () => {
+  userStore.postLogout()
+}
+const userStore = useUserStore();
+
 </script>
 
 <template>
@@ -53,11 +60,22 @@ const handleSearch = () => {
           <PlusIcon class="btn-icon" />
           <span>Post Baru</span>
         </button>
-        
-        <div class="auth-buttons">
+
+        <div v-if="!userStore.userValid" class="auth-buttons">
           <router-link to="/login" class="btn btn-primary">
             Masuk
           </router-link>
+          <span>Guest</span>
+          <UserCircleIcon
+            class="user-icon"
+            @click="router.push('/u/myusername')"
+          />
+        </div>
+        <div v-if="userStore.userValid" class="auth-buttons">
+          <router-link to="/login" class="btn btn-primary" @click="handleLogout">
+            Logout
+          </router-link>
+          <span>u/{{ userStore.user?.username }}</span>
           <UserCircleIcon
             class="user-icon"
             @click="router.push('/u/myusername')"
