@@ -5,11 +5,26 @@ import { subTopiqService } from '../services/api';
 
 export const useSubTopiqStore = defineStore('subtopiqs', () => {
     const subtopiqs = ref<SubTopiqs[]>([]);
-    const subtopiq = ref<SubTopiqs>();
+    const subtopiq = ref<SubTopiqs | null>(null);
     const loading = ref(false);
     const error = ref<string | null>(null);
 
-    // create subTopiqs belum
+    async function createSubTopiq(newSubTopiq: SubTopiqs) {
+      try {
+            loading.value = true;
+            const response = await subTopiqService.createSubTopiq(newSubTopiq);
+            if (response && response.data) {
+                subtopiq.value = response.data;
+            } else {
+                throw new Error('No data returned');
+            }
+        } catch (err) {
+            console.error(err);
+            error.value = 'Failed to create sub topiq';
+        } finally {
+            loading.value = false;
+        }
+    }
     
     async function fetchAllSubTopiqs() {
       try {
@@ -95,6 +110,7 @@ export const useSubTopiqStore = defineStore('subtopiqs', () => {
     }
 
     return {
+      createSubTopiq,
       subtopiqs,
       subtopiq,
       loading,

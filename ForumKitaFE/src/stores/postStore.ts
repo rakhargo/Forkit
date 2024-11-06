@@ -5,9 +5,9 @@ import { postService } from '../services/api';
 
 export const usePostStore = defineStore('posts', () => {
   const posts = ref<Posts[]>([]);
-  const post = ref<Posts>();
+  const post = ref<Posts | null>(null);
   const replies = ref<Replies[]>([]);
-  // const reply = ref<Replies>(); // const variable for single reply
+  const reply = ref<Replies>();
   const loading = ref(false);
   const error = ref<string | null>(null);
 
@@ -59,7 +59,22 @@ export const usePostStore = defineStore('posts', () => {
     }
   }
 
-  // create post belum
+  async function createPost(newPost: Posts) {
+    try {
+          loading.value = true;
+          const response = await postService.createPost(newPost);
+          if (response && response.data) {
+              post.value = response.data;  // Assuming response.data is of type Posts
+          } else {
+              throw new Error('No data returned');
+          }
+      } catch (err) {
+          console.error(err);  // Logs the specific error for debugging
+          error.value = 'Failed to create post';
+      } finally {
+          loading.value = false;
+      }
+  }
 
   async function upVotePost(postId: string) {
     try {
@@ -85,7 +100,22 @@ export const usePostStore = defineStore('posts', () => {
     }
   }
 
-  // create reply belum
+  async function createReply(postId: string) {
+    try {
+          loading.value = true;
+          const response = await postService.createReply(postId);
+          if (response && response.data) {
+              reply.value = response.data;  // Assuming response.data is of type Posts
+          } else {
+              throw new Error('No data returned');
+          }
+      } catch (err) {
+          console.error(err);  // Logs the specific error for debugging
+          error.value = 'Failed to create reply';
+      } finally {
+          loading.value = false;
+      }
+  }
 
   async function fetchTopPosts(subTopiqId: string) {
     try {
@@ -127,7 +157,8 @@ export const usePostStore = defineStore('posts', () => {
     posts,
     post,
     replies,
-    // reply,
+    createReply,
+    createPost,
     loading,
     error,
     fetchAllPosts,
