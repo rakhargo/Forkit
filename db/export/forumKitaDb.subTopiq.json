@@ -28,6 +28,49 @@
       "postId": {
         "$oid": "6729f936e788dd9d2f0ca74b"
       }
+    },
+    {
+      "postId": {
+        "$oid": "672c1327ff9a1ad7b466a663"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "672c13a1ff9a1ad7b466a664"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "672c184fff9a1ad7b466a665"
+      }
+    },
+    {
+      "postId": {
+        "$oid": "672c287aff9a1ad7b466a669"
+      }
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "672c2631ff9a1ad7b466a666"
+  },
+  "name": "Subtaufiq",
+  "creatorId": {
+    "$oid": "6729dca809537cede1c0fa91"
+  },
+  "moderators": [
+    {
+      "moderatorId": {
+        "$oid": "6729dca809537cede1c0fa91"
+      }
+    }
+  ],
+  "posts": [
+    {
+      "postId": {
+        "$oid": "672c2677ff9a1ad7b466a667"
+      }
     }
   ]
 }]

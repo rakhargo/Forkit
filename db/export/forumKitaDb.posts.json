@@ -1,28 +1,5 @@
 [{
   "_id": {
-    "$oid": "6729e2e272b6faff35a27c7d"
-  },
-  "title": "Bakon x Ambalabu collab??",
-  "description": "Apakah bakon dan ambalabu akan collab menjadi ambalabatukam???",
-  "upVote": 1,
-  "downVote": 0,
-  "replies": [
-    {
-      "reply": "Gajadi, udah nemu, katanya bakal collab di 12 september kata RAKHA DHIFIARGO HARIADI",
-      "creatorId": {
-        "$oid": "6729dddff3d63a4eaabfd0dc"
-      }
-    }
-  ],
-  "creatorId": {
-    "$oid": "6729dddff3d63a4eaabfd0dc"
-  },
-  "subTopiqId": {
-    "$oid": "6729dfc9228392b57dccc6e5"
-  }
-},
-{
-  "_id": {
     "$oid": "6729f8d4e788dd9d2f0ca749"
   },
   "title": "Agus Sobandi Kaprodi Baru???",
@@ -64,6 +41,70 @@
   "replies": [],
   "creatorId": {
     "$oid": "6729dddff3d63a4eaabfd0dc"
+  },
+  "subTopiqId": {
+    "$oid": "6729e1d9f5e4416aad6f187b"
+  }
+},
+{
+  "_id": {
+    "$oid": "672c1327ff9a1ad7b466a663"
+  },
+  "title": "sad",
+  "description": "sda",
+  "upVote": 0,
+  "downVote": 0,
+  "replies": [],
+  "creatorId": {
+    "$oid": "672b8872dd32115522484f14"
+  },
+  "subTopiqId": {
+    "$oid": "6729e1d9f5e4416aad6f187b"
+  }
+},
+{
+  "_id": {
+    "$oid": "672c13a1ff9a1ad7b466a664"
+  },
+  "title": "kami suka bakon",
+  "description": "bakon bakon bakon",
+  "upVote": 0,
+  "downVote": 0,
+  "replies": [],
+  "creatorId": {
+    "$oid": "672b8872dd32115522484f14"
+  },
+  "subTopiqId": {
+    "$oid": "6729e1d9f5e4416aad6f187b"
+  }
+},
+{
+  "_id": {
+    "$oid": "672c184fff9a1ad7b466a665"
+  },
+  "title": "aku suka mamah",
+  "description": "sadsdasda",
+  "upVote": 0,
+  "downVote": 0,
+  "replies": [],
+  "creatorId": {
+    "$oid": "672b8872dd32115522484f14"
+  },
+  "subTopiqId": {
+    "$oid": "6729e1d9f5e4416aad6f187b"
+  }
+},
+{
+  "_id": {
+    "$oid": "672c287aff9a1ad7b466a669"
+  },
+  "title": "qwwe",
+  "description": "qweqwe",
+  "upVote": 0,
+  "downVote": 0,
+  "replies": [],
+  "creatorId": {
+    "$oid": "672b8872dd32115522484f14"
   },
   "subTopiqId": {
     "$oid": "6729e1d9f5e4416aad6f187b"
