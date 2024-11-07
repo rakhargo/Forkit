@@ -5,7 +5,7 @@ export interface Posts {
     upVote: number;
     downVote: number;
     replies: Replies[];
-    creatorId: string;
+    creatorId: string | null;
     subTopiqId: string;
 }
 

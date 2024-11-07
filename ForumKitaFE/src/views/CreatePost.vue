@@ -1,26 +1,42 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { useUserStore } from '../stores/userStore';
+import { useSubTopiqStore } from '../stores/subTopiqStore';
+import { usePostStore } from '../stores/postStore';
 
 const router = useRouter()
 const title = ref('')
 const content = ref('')
 const selectedSubforum = ref('')
 
-const subforums = [
-  'indonesia',
-  'programming',
-  'gaming',
-  'technology',
-  'science'
-]
+// const subforums = [
+//   'indonesia',
+//   'programming',
+//   'gaming',
+//   'technology',
+//   'science'
+// ]
+
+const userStore = useUserStore();
+const subTopiqStore = useSubTopiqStore();
 
 const handleSubmit = () => {
   // TODO: Implement post creation logic
-  console.log('Create post:', {
+  // console.log('Create post:', {
+  //   title: title.value,
+  //   content: content.value,
+  //   subforum: selectedSubforum.value
+  // })
+  userStore.user?.subTopiqs.forEach((subTopiq) => {
+        subTopiqStore.fetchSubTopiqById(subTopiq.subTopiqId);
+      });
+    const postStore = usePostStore();
+    postStore.createPost({
     title: title.value,
-    content: content.value,
-    subforum: selectedSubforum.value
+    description: content.value,
+    creatorId: userStore.userId,
+    subTopiqId: selectedSubforum.value,
   })
   router.push('/')
 }
@@ -42,11 +58,11 @@ const handleSubmit = () => {
           >
             <option value="" disabled>Pilih subforum</option>
             <option
-              v-for="forum in subforums"
-              :key="forum"
-              :value="forum"
+              v-for="subtopiq in userStore.user?.subTopiqs"
+              :key="subtopiq.subTopiqId"
+              :value="subtopiq.subTopiqId"
             >
-              f/{{ forum }}
+              f/{{ subTopiqStore.subtopiq?.name }}
             </option>
           </select>
         </div>

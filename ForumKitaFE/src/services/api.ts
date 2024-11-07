@@ -15,7 +15,7 @@ export const postService = {
   getPostById: (id: string) => api.get<Posts>('/posts/' + id),
   getPostBySubTopiqId: (id: string) => api.get<Posts[]>('/posts/subtopiq/' + id),
   getPostByCreatorId: (id: string) => api.get<Posts[]>('/posts/creator/' + id),
-  createPost: (post: Partial<Posts>) => api.post<Posts>('/posts/', post),
+  createPost: (post: Partial<Posts>) => api.post<Posts>(`/posts/?title=${post.title}&description=${post.description}&creator_id=${post.creatorId}&subtopiq_id=${post.subTopiqId}`),
   upVote: (postId: string) => api.post('/posts/' + postId + '/upvote'),
   downVote: (postId: string) => api.post('/posts/' + postId + '/downvote'),
   deletePosts: (postId: string) => api.delete('/posts/' + postId),

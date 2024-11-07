@@ -35,7 +35,8 @@ const router = createRouter({
     {
       path: '/f/:name',
       name: 'subforum',
-      component: Subforum
+      component: Subforum,
+      props: true,
     },
     {
       path: '/u/:username',

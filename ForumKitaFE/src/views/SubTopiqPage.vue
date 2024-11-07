@@ -2,6 +2,8 @@
 import { ref, computed, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import PostCard from '../components/PostCard.vue'
+import { useSubTopiqStore } from '../stores/subTopiqStore';
+import { usePostStore } from '../stores/postStore';
 
 const route = useRoute()
 const forumName = computed(() => route.params.name as string)
@@ -175,8 +177,21 @@ const handleScroll = (e: Event) => {
   }
 }
 
+const props = defineProps({
+  subTopiqId: {
+    type: String,  // Define the type of the prop
+    required: true // Mark it as required if necessary
+  },
+})
+
+const subTopiqStore = useSubTopiqStore()
+const postStore = usePostStore()
+
 onMounted(() => {
-  loadMorePosts()
+  // loadMorePosts()
+  console.log(props.subTopiqId)
+  subTopiqStore.fetchSubTopiqById(props.subTopiqId)
+  postStore.fetchTopPosts(props.subTopiqId)
 })
 </script>
 
@@ -184,13 +199,14 @@ onMounted(() => {
   <div class="subforum-container">
     <div class="subforum-header">
       <div class="subforum-info">
-        <h1 class="subforum-title">f/{{ forumName }}</h1>
+        <h1 class="subforum-title">f/{{ subTopiqStore.subtopiq?.name }}</h1>
         <p class="subforum-stats">
-          {{ forum.members.toLocaleString() }} members • 
-          {{ forum.online.toLocaleString() }} online
+          <!-- {{ forum.members.toLocaleString() }} members • 
+          {{ forum.online.toLocaleString() }} online -->
         </p>
         <p class="subforum-description">
-          {{ forum.description }}
+          <!-- {{ forum.description }} -->
+          Dummy test
         </p>
       </div>
       <button class="btn btn-primary">Join</button>
@@ -198,21 +214,21 @@ onMounted(() => {
     
     <div class="main-content">
       <div class="scrollable-content hide-scrollbar" @scroll="handleScroll">
-        <div class="new-post">
+        <!-- <div class="new-post">
           <router-link
             :to="{ name: 'create-post' }"
             class="new-post-input"
           >
             Buat post baru di f/{{ forumName }}...
           </router-link>
-        </div>
+        </div> -->
         
-        <div v-if="searchQuery" class="search-info">
+        <!-- <div v-if="searchQuery" class="search-info">
           Menampilkan hasil pencarian untuk "{{ searchQuery }}"
-        </div>
+        </div> -->
         
         <PostCard
-          v-for="post in filteredPosts"
+          v-for="post in postStore.posts"
           :key="post.id"
           :post="post"
         />

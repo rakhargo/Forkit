@@ -7,28 +7,11 @@ import { onMounted } from 'vue';
 
 const router = useRouter()
 
-const communities = [
-  { name: 'indonesia', members: '250K', description: 'Komunitas Indonesia' },
-  { name: 'programming', members: '180K', description: 'Diskusi Programming' },
-  { name: 'gaming', members: '150K', description: 'Komunitas Gaming' },
-  { name: 'technology', members: '120K', description: 'Teknologi Terkini' },
-  { name: 'science', members: '100K', description: 'Sains dan Penelitian' },
-  { name: 'movies', members: '90K', description: 'Film dan Series' },
-  { name: 'music', members: '85K', description: 'Musik Indonesia' },
-  { name: 'food', members: '75K', description: 'Kuliner Nusantara' },
-  { name: 'sports', members: '70K', description: 'Olahraga' },
-  { name: 'books', members: '65K', description: 'Komunitas Buku' },
-  { name: 'art', members: '60K', description: 'Seni dan Kreativitas' },
-  { name: 'photography', members: '55K', description: 'Fotografi' },
-  { name: 'finance', members: '50K', description: 'Keuangan dan Investasi' },
-  { name: 'health', members: '45K', description: 'Kesehatan' },
-  { name: 'education', members: '40K', description: 'Pendidikan' }
-]
-
 const subTopiqStore = useSubTopiqStore();
 const userStore = useUserStore();
 const goToSubforum = (name: string) => {
-  router.push(`/f/${name}`)
+  // router.push(`/f/${name}`)
+  router.push({ name: 'subforum', params: { name } });
 }
 
 const handleSubTopiq = async (subTopiqId: string) => {
@@ -52,7 +35,7 @@ onMounted(() => {
           v-for="subtopiq in userStore.user?.subTopiqs"
           :key="subtopiq.subTopiqId"
           class="community-item"
-          @click="goToSubforum(subtopiqId)"
+          @click="goToSubforum(subtopiq.subTopiqId)"
         >
         <!-- {{ console.log(userStore.user?.subTopiqs.length()) }} -->
         <!-- {{ handleSubTopiq(subtopiqId.subTopiqId) }} -->
@@ -64,7 +47,7 @@ onMounted(() => {
               <!-- <div class="community-members">{{ subtopiqId }} members</div> -->
             </div>
           </div>
-          <button class="join-button">Join</button>
+          <!-- <button class="join-button">Join</button> -->
         </div>
       </div>
     </div>

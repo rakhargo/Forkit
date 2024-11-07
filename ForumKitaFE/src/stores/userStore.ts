@@ -104,6 +104,7 @@ export const useUserStore = defineStore('users', () => {
     return {
         users,
         user,
+        userId,
         token,
         loading,
         userValid,
