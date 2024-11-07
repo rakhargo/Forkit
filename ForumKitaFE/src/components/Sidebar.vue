@@ -37,6 +37,9 @@ const handleSubTopiq = async (subTopiqId: string) => {
 
 onMounted(() => {
   console.log(userStore.user?.subTopiqs)
+  userStore.user?.subTopiqs.forEach((subTopiq) => {
+        subTopiqStore.fetchSubTopiqById(subTopiq.subTopiqId);
+      });
 });
 </script>
 
@@ -46,12 +49,13 @@ onMounted(() => {
       <h2 class="sidebar-title">Subforum saya</h2>
       <div class="communities-list">
         <div
-          v-for="subtopiqId in userStore.user?.subTopiqs"
-          :key="subtopiqId"
+          v-for="subtopiq in userStore.user?.subTopiqs"
+          :key="subtopiq.subTopiqId"
           class="community-item"
           @click="goToSubforum(subtopiqId)"
         >
-        {{ handleSubTopiq(subtopiqId) }}
+        <!-- {{ console.log(userStore.user?.subTopiqs.length()) }} -->
+        <!-- {{ handleSubTopiq(subtopiqId.subTopiqId) }} -->
           <div class="community-info">
             <div class="community-avatar"></div>
             <div>

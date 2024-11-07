@@ -41,7 +41,7 @@ export const useSubTopiqStore = defineStore('subtopiqs', () => {
     async function fetchSubTopiqById(subTopiqId: string){
       try {
         loading.value = true;
-        console.log(subTopiqId);
+        // console.log(subTopiqId);
         const response = await subTopiqService.getSubTopiqById(subTopiqId);
         subtopiq.value = response.data;
       } catch (err) {
